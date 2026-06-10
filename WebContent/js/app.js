@@ -187,8 +187,9 @@ createApp({
       }
       this.submitting = true; this.modalError = '';
       try {
+        const recipID = 'CN=' + f.RecipientID.trim() + '/O=XRedSchool';
         const body = {
-          RecipientID: f.RecipientID.trim(),
+          RecipientID: recipID,
           CardType:    f.CardType,
           CardMessage: f.CardMessage,
           IsPublic:    f.IsPublic ? '1' : '0',
@@ -196,7 +197,7 @@ createApp({
         const unid = await this.createDoc('FNLKM02', body);
         const sender = await this.ownerOf(unid, 'SenderID');
         await this.issueCoin(sender,            2, 'ThanksCard_Send', unid, `發送感謝卡（${f.CardType}）`);
-        await this.issueCoin(f.RecipientID.trim(),3, 'ThanksCard_Recv', unid, `收到感謝卡（${f.CardType}）`);
+        await this.issueCoin(recipID,3, 'ThanksCard_Recv', unid, `收到感謝卡（${f.CardType}）`);
         await this.afterCreate('thanks', '感謝卡已送出，+2 活力幣！');
       } catch (e) { this.failSubmit(e); }
       this.submitting = false;
@@ -205,6 +206,7 @@ createApp({
     async submitProposal() {
       const f = this.proposalForm;
       if (!f.ProposalTitle.trim()) { this.modalError = '請輸入提案標題。'; return; }
+      if (this.balance < 5) { this.modalError = '活力幣不足！提案需要 5 活力幣，目前餘額 ' + this.balance + '。'; return; }
       this.submitting = true; this.modalError = '';
       try {
         const body = {
@@ -217,8 +219,8 @@ createApp({
         };
         const unid = await this.createDoc('FNLKM03', body);
         const me = await this.ownerOf(unid, 'ProposerID');
-        await this.issueCoin(me, 5, 'Proposal_Submit', unid, `提出創新提案：${f.ProposalTitle.trim()}`);
-        await this.afterCreate('proposal', '提案已公開，+5 活力幣！');
+        await this.issueCoin(me, -5, 'Proposal_Submit', unid, `提出創新提案：${f.ProposalTitle.trim()}`);
+        await this.afterCreate('proposal', '提案已公開，-5 活力幣！如提案達標將會返還活力幣！');
       } catch (e) { this.failSubmit(e); }
       this.submitting = false;
     },
@@ -253,7 +255,7 @@ createApp({
         }
         await axios.patch(`${DOCS}/unid/${parentUnid}?computewithform=true`, patch);
         if (patch.Status === 'Pending') {
-          await this.issueCoin(p.ProposerID, 50, 'Proposal_Funded', parentUnid, `提案達標：${p.ProposalTitle}`);
+          await this.issueCoin(p.ProposerID, 55, 'Proposal_Funded', parentUnid, `提案達標：${p.ProposalTitle}`);
           this.toast('🎉 提案已達標，進入審核！');
         }
       } catch (e) { console.warn('[NovaLink] 更新父提案失敗（不影響投資紀錄）', e); }
