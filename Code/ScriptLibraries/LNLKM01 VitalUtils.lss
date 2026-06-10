@@ -1,0 +1,97 @@
+'++LotusScript Development Environment:2:5:(Options):0:74
+Option Public
+Option Declare
+
+
+'++LotusScript Development Environment:2:5:(Forward):0:1
+Declare Sub NLK_IssueCoin(db As NotesDatabase, employeeID As String, _
+    amount As Integer, source As String, refDocID As String, desc As String)
+Declare Function NLK_GetBalance(db As NotesDatabase, employeeID As String) As Long
+Declare Sub NLK_SendNotifyMail(recipientID As String, subject As String, body As String)
+
+'++LotusScript Development Environment:2:5:(Declarations):0:2
+
+'++LotusScript Development Environment:2:2:NLK_IssueCoin:2:8
+Sub NLK_IssueCoin(db As NotesDatabase, employeeID As String, _
+    amount As Integer, source As String, refDocID As String, desc As String)
+
+    Dim coinDoc As NotesDocument
+    Dim empName As String
+    Dim slashPos As Integer
+    Dim readersArr(1) As String
+    Dim authorsArr(0) As String
+
+    slashPos = InStr(employeeID, "/")
+    If slashPos > 0 Then
+        empName = Left(employeeID, slashPos - 1)
+    Else
+        empName = employeeID
+    End If
+    If Left(empName, 3) = "CN=" Then empName = Mid(empName, 4)
+
+    Set coinDoc = db.CreateDocument()
+    coinDoc.Form         = "FNLKT05"
+    coinDoc.EmployeeID   = employeeID
+    coinDoc.EmployeeName = empName
+    coinDoc.Amount       = amount
+
+    If amount >= 0 Then
+        coinDoc.TransType = "Earn"
+    Else
+        coinDoc.TransType = "Spend"
+    End If
+
+    coinDoc.Source      = source
+    coinDoc.RefDocID    = refDocID
+    coinDoc.Description = desc
+    coinDoc.RefDate     = Now()
+
+    readersArr(0) = employeeID
+    readersArr(1) = "[NLK_SysAdmin]"
+    coinDoc.CoinReaders = readersArr
+
+    authorsArr(0) = "[NLK_SysAdmin]"
+    coinDoc.CoinAuthors = authorsArr
+
+    Call coinDoc.Save(True, False)
+End Sub
+
+'++LotusScript Development Environment:2:1:NLK_GetBalance:2:8
+
+Function NLK_GetBalance(db As NotesDatabase, employeeID As String) As Long
+    Dim view As NotesView
+    Dim entry As NotesViewEntry
+    Dim balance As Long
+
+    balance = 0
+    Set view = db.GetView("VNLKT50")
+    If view Is Nothing Then
+        NLK_GetBalance = 0
+        Exit Function
+    End If
+
+    Set entry = view.GetEntryByKey(employeeID, True)
+    If Not (entry Is Nothing) Then
+        balance = CLng(entry.ColumnValues(1))
+    End If
+
+    NLK_GetBalance = balance
+End Function
+
+'++LotusScript Development Environment:2:2:NLK_SendNotifyMail:2:8
+
+Sub NLK_SendNotifyMail(recipientID As String, subject As String, body As String)
+    Dim ss As New NotesSession
+    Dim db As NotesDatabase
+    Dim mailDoc As NotesDocument
+
+    Set db = ss.CurrentDatabase
+    Set mailDoc = db.CreateDocument()
+
+    mailDoc.Form    = "Memo"
+    mailDoc.SendTo  = recipientID
+    mailDoc.Subject = subject
+    mailDoc.Body    = body
+
+    Call mailDoc.Send(False)
+End Sub

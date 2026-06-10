@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='utf-8'?>
+<view name='VNLKM21 ThankCardsByRecipient' alias='VNLKM21' xmlns='http://www.lotus.com/dxl'
+ version='12.0' maintenanceversion='2.0' replicaid='48258E12005A8210' showinmenu='false'
+ noreplace='true' publicaccess='false' designerversion='8.5.3' unreadmarks='none'
+ onopengoto='lastopened' onrefresh='displayindicator' headers='beveled' opencollapsed='false'
+ showresponsehierarchy='false' showmargin='true' shrinkrows='false' extendlastcolumn='false'
+ showhierarchies='false' unreadcolor='black' rowlinecount='1' headerlinecount='1'
+ rowspacing='1' bgcolor='white' altrowcolor='#a1e2ff' totalscolor='black'
+ headerbgcolor='white' boldunreadrows='false' evaluateactions='false' allownewdocuments='false'
+ allowcustomizations='false' hidemarginborder='false' marginwidth='0px' marginbgcolor='white'
+ uniquekeys='false'>
+<noteinfo noteid='232' unid='A6F95448403FCEEC48258E0C0044A915' sequence='18'>
+<created><datetime>20260604T202957,33+08</datetime></created>
+<modified><datetime>20260611T002836,52+08</datetime></modified>
+<revised><datetime>20260609T135132,45+08</datetime></revised>
+<lastaccessed><datetime>20260611T002836,51+08</datetime></lastaccessed>
+<addedtofile><datetime>20260611T002836,51+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=B11209013/O=XRedSchool</name></updatedby>
+<wassignedby><name>CN=B11209013/O=XRedSchool</name></wassignedby><code event='selection'><formula
+>SELECT Form = "FNLKM02"</formula></code>
+<actionbar bgcolor='#f0f0f0' bordercolor='black'>
+<actionbuttonstyle bgcolor='#f0f0f0'/><font color='system'/><border style='solid'
+ width='0px 0px 1px' color='system'/>
+<action title='發送感謝卡'><code event='click'><formula>@Command([Compose]; "FNLKM02")</formula></code></action></actionbar>
+<column sort='ascending' hidedetailrows='false' itemname='RecipientID' width='25'
+ resizable='true' separatemultiplevalues='true' sortnoaccent='false' sortnocase='true'
+ showaslinks='false' categorized='true' twisties='true'><columnheader title='收件者'><font
+ size='9pt' style='bold'/></columnheader></column>
+<column sort='descending' hidedetailrows='false' itemname='SendDateStr' width='15'
+ resizable='true' separatemultiplevalues='false' sortnoaccent='false' sortnocase='true'
+ showaslinks='false'><columnheader title='日期'><font size='9pt' style='bold'/></columnheader></column>
+<column hidedetailrows='false' itemname='SenderName' width='12' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='true' showaslinks='false'><columnheader
+ title='發送者'><font size='9pt' style='bold'/></columnheader></column>
+<column hidedetailrows='false' itemname='CardType' width='15' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='true' showaslinks='false'><columnheader
+ title='類型'><font size='9pt' style='bold'/></columnheader></column></view>
+

@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
+<frameset name='RNLKM01 MainFrame' xmlns='http://www.lotus.com/dxl' version='12.0'
+ maintenanceversion='2.0' replicaid='48258E12005A8210' publicaccess='false'
+ designerversion='8.5.3' columns='22% 78%' spacing='0px' bordercolor='none'>
+<noteinfo noteid='252' unid='3DFB7C8B3AC3BFDB48258E0C0045EE23' sequence='14'>
+<created><datetime>20260604T204349,47+08</datetime></created>
+<modified><datetime>20260611T002836,63+08</datetime></modified>
+<revised><datetime>20260609T134909,54+08</datetime></revised>
+<lastaccessed><datetime>20260611T002836,62+08</datetime></lastaccessed>
+<addedtofile><datetime>20260611T002836,62+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=B11209013/O=XRedSchool</name></updatedby>
+<wassignedby><name>CN=B11209013/O=XRedSchool</name></wassignedby>
+<frame targetframe='FrameRight'><namedelementlink type='form' name='FNLKM90'/></frame>
+<frame name='FrameRight'><namedelementlink type='view' name='VNLKM20'/></frame></frameset>
+

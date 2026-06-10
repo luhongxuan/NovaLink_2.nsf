@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='utf-8'?>
+<view name='VNLKT50 CoinBalanceByEmployee' alias='VNLKT50' xmlns='http://www.lotus.com/dxl'
+ version='12.0' maintenanceversion='2.0' replicaid='48258E12005A8210' showinmenu='false'
+ noreplace='true' publicaccess='false' designerversion='8.5.3' unreadmarks='none'
+ onopengoto='lastopened' onrefresh='displayindicator' headers='beveled' opencollapsed='false'
+ showresponsehierarchy='false' showmargin='true' shrinkrows='false' extendlastcolumn='false'
+ showhierarchies='false' unreadcolor='black' rowlinecount='1' headerlinecount='1'
+ rowspacing='1' bgcolor='white' altrowcolor='#a1e2ff' totalscolor='black'
+ headerbgcolor='white' boldunreadrows='false' evaluateactions='false' allownewdocuments='false'
+ allowcustomizations='false' hidemarginborder='false' marginwidth='0px' marginbgcolor='white'
+ uniquekeys='false'>
+<noteinfo noteid='23e' unid='7D9C2268FADBE88048258E0C0044BA8A' sequence='19'>
+<created><datetime>20260604T203042,02+08</datetime></created>
+<modified><datetime>20260611T002836,57+08</datetime></modified>
+<revised><datetime>20260609T135129,47+08</datetime></revised>
+<lastaccessed><datetime>20260611T002836,56+08</datetime></lastaccessed>
+<addedtofile><datetime>20260611T002836,56+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=B11209013/O=XRedSchool</name></updatedby>
+<wassignedby><name>CN=B11209013/O=XRedSchool</name></wassignedby><code event='selection'><formula
+>SELECT Form = "FNLKT05"</formula></code>
+<column sort='ascending' hidedetailrows='false' itemname='EmployeeID' width='25'
+ resizable='true' separatemultiplevalues='true' sortnoaccent='false' sortnocase='true'
+ showaslinks='false' categorized='true' twisties='true'><columnheader title='員工ID'><font
+ size='9pt' style='bold'/></columnheader></column>
+<column totals='total' hidedetailrows='false' itemname='Amount' width='12'
+ resizable='true' separatemultiplevalues='false' sortnoaccent='false' sortnocase='true'
+ showaslinks='false'><columnheader title='活力幣餘額'><font size='9pt' style='bold'/></columnheader></column>
+<column hidedetailrows='false' itemname='EmployeeName' width='12' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='true' showaslinks='false'><columnheader
+ title='姓名'><font size='9pt' style='bold'/></columnheader></column></view>
+

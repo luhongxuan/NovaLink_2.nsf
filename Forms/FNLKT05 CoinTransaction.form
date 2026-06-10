@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='utf-8'?>
+<form name='FNLKT05 CoinTransaction' alias='FNLKT05' xmlns='http://www.lotus.com/dxl'
+ version='12.0' maintenanceversion='2.0' replicaid='48258E12005A8210' publicaccess='false'
+ designerversion='8.5.3' renderpassthrough='true'>
+<noteinfo noteid='22a' unid='12CB59A80892B3BF48258E0C00429886' sequence='15'>
+<created><datetime>20260604T200724,22+08</datetime></created>
+<modified><datetime>20260611T002836,50+08</datetime></modified>
+<revised><datetime>20260605T104145,86+08</datetime></revised>
+<lastaccessed><datetime>20260611T002836,49+08</datetime></lastaccessed>
+<addedtofile><datetime>20260611T002836,49+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=B11209013/O=XRedSchool</name></updatedby>
+<wassignedby><name>CN=B11209013/O=XRedSchool</name></wassignedby>
+<body><richtext>
+<pardef id='1'/>
+<par def='1'><run><font size='12pt' name='serif'/><field type='text' kind='editable'
+ name='EmployeeID'/></run><compositedata type='98' prevtype='65418' nexttype='222'
+ afterparcount='6' containertype='65418' aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt' name='serif'/><field type='text' kind='editable'
+ name='EmployeeName'/></run><compositedata type='98' prevtype='65418' nexttype='222'
+ afterparcount='5' containertype='65418' aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt' name='serif'/><field type='number' kind='editable'
+ name='Amount'><numberformat format='general' varying='true' punctuated='false'
+ parens='false' percent='false' bytes='false'/></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='5' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt' name='serif'/><field type='text' kind='editable'
+ name='TransType'/></run><compositedata type='98' prevtype='65418' nexttype='222'
+ afterparcount='5' containertype='65418' aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt' name='serif'/><field type='text' kind='editable'
+ name='Source'/></run><compositedata type='98' prevtype='65418' nexttype='222'
+ afterparcount='5' containertype='65418' aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt' name='serif'/><field type='text' kind='editable'
+ name='Description'/></run><compositedata type='98' prevtype='65418' nexttype='222'
+ afterparcount='5' containertype='65418' aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt' name='serif'/><field type='text' kind='editable'
+ name='RefDocID'/></run><compositedata type='98' prevtype='65418' nexttype='222'
+ afterparcount='5' containertype='65418' aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt' name='serif'/><field type='datetime' kind='editable'
+ name='RefDate'><datetimeformat show='datetime' date='yearmonthday' time='hourminutesecond'
+ zone='never' dateformat='weekdaymonthdayyear' dayformat='twodigitday' monthformat='twodigitmonth'
+ yearformat='fourdigityear' weekdayformat='shortname' dateseparator1=' ' dateseparator2='/'
+ dateseparator3='/' timeseparator=':' preference='usersetting'/></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='5' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt' name='serif'/><field type='readers' kind='editable'
+ name='CoinReaders'/></run><compositedata type='98' prevtype='65418' nexttype='222'
+ afterparcount='5' containertype='65418' aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt' name='serif'/><field type='authors' kind='editable'
+ name='CoinAuthors'/></run><compositedata type='98' prevtype='65418' nexttype='222'
+ afterparcount='5' containertype='65418' aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par></richtext></body>
+<item name='$$ScriptName' summary='false' sign='true'><text>FNLKT05</text></item></form>
+

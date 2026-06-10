@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='utf-8'?>
+<view name='VNLKM10 MoodByEmployeeDate' alias='VNLKM10' xmlns='http://www.lotus.com/dxl'
+ version='12.0' maintenanceversion='2.0' replicaid='48258E12005A8210' showinmenu='false'
+ noreplace='true' publicaccess='false' designerversion='8.5.3' unreadmarks='none'
+ onopengoto='lastopened' onrefresh='displayindicator' headers='beveled' opencollapsed='false'
+ showresponsehierarchy='false' showmargin='true' shrinkrows='false' extendlastcolumn='false'
+ showhierarchies='false' unreadcolor='black' rowlinecount='1' headerlinecount='1'
+ rowspacing='1' bgcolor='white' altrowcolor='#a1e2ff' totalscolor='black'
+ headerbgcolor='white' boldunreadrows='false' evaluateactions='false' allownewdocuments='false'
+ allowcustomizations='false' hidemarginborder='false' marginwidth='0px' marginbgcolor='white'
+ uniquekeys='false'>
+<noteinfo noteid='21a' unid='D83DC18F8E8C48CA48258E0C003FD8D8' sequence='32'>
+<created><datetime>20260604T193722,80+08</datetime></created>
+<modified><datetime>20260611T002836,44+08</datetime></modified>
+<revised><datetime>20260609T135134,47+08</datetime></revised>
+<lastaccessed><datetime>20260611T002836,43+08</datetime></lastaccessed>
+<addedtofile><datetime>20260611T002836,43+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=B11209013/O=XRedSchool</name></updatedby>
+<wassignedby><name>CN=B11209013/O=XRedSchool</name></wassignedby><code event='selection'><formula
+>SELECT Form = "FNLKM01"</formula></code>
+<actionbar bgcolor='#f0f0f0' bordercolor='black'>
+<actionbuttonstyle bgcolor='#f0f0f0'/><font color='system'/><border style='solid'
+ width='0px 0px 1px' color='system'/>
+<action title='填寫今日情緒'><code event='click'><formula>@Command([Compose]; "FNLKM01")</formula></code></action>
+<action title='搜尋'><code event='click'><formula>@Command([ViewShowSearchBar])</formula></code></action></actionbar>
+<column sort='ascending' hidedetailrows='false' itemname='EmployeeID' width='20'
+ resizable='true' separatemultiplevalues='false' sortnoaccent='false' sortnocase='true'
+ showaslinks='false'><columnheader title='員工ID'><font size='9pt' style='bold'/></columnheader></column>
+<column sort='ascending' hidedetailrows='false' itemname='MoodDateStr' width='15'
+ resizable='true' separatemultiplevalues='false' sortnoaccent='false' sortnocase='true'
+ showaslinks='false'><columnheader title='填寫日期'><font size='9pt' style='bold'/></columnheader></column>
+<column hidedetailrows='false' itemname='MoodScore' width='8' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='false' showaslinks='false'><columnheader
+ title='情緒分數'><font size='9pt' style='bold'/></columnheader></column>
+<column hidedetailrows='false' itemname='StressLevel' width='8' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='false' showaslinks='false'><columnheader
+ title='壓力程度'><font size='9pt' style='bold'/></columnheader></column>
+<column hidedetailrows='false' itemname='MoodNote' width='20' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='false' showaslinks='false'><columnheader
+ title='今日一句話'><font size='9pt' style='bold'/></columnheader></column></view>
+

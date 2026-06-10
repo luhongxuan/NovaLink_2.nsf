@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='utf-8'?>
+<view name='VNLKT51 CoinTransactionsByEmployee' alias='VNLKT51' xmlns='http://www.lotus.com/dxl'
+ version='12.0' maintenanceversion='2.0' replicaid='48258E12005A8210' showinmenu='false'
+ noreplace='true' publicaccess='false' designerversion='8.5.3' unreadmarks='none'
+ onopengoto='lastopened' onrefresh='displayindicator' headers='beveled' opencollapsed='false'
+ showresponsehierarchy='false' showmargin='true' shrinkrows='false' extendlastcolumn='false'
+ showhierarchies='false' unreadcolor='black' rowlinecount='1' headerlinecount='1'
+ rowspacing='1' bgcolor='white' altrowcolor='#a1e2ff' totalscolor='black'
+ headerbgcolor='white' boldunreadrows='false' evaluateactions='false' allownewdocuments='false'
+ allowcustomizations='false' hidemarginborder='false' marginwidth='0px' marginbgcolor='white'
+ uniquekeys='false'>
+<noteinfo noteid='242' unid='C479A069B3F2B0E548258E0C0044BF95' sequence='18'>
+<created><datetime>20260604T203054,93+08</datetime></created>
+<modified><datetime>20260611T002836,58+08</datetime></modified>
+<revised><datetime>20260609T135128,34+08</datetime></revised>
+<lastaccessed><datetime>20260611T002836,57+08</datetime></lastaccessed>
+<addedtofile><datetime>20260611T002836,57+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=B11209013/O=XRedSchool</name></updatedby>
+<wassignedby><name>CN=B11209013/O=XRedSchool</name></wassignedby><code event='selection'><formula
+>SELECT Form = "FNLKT05"</formula></code>
+<column sort='ascending' hidedetailrows='false' itemname='EmployeeID' width='25'
+ resizable='true' separatemultiplevalues='true' sortnoaccent='false' sortnocase='true'
+ showaslinks='false' categorized='true' twisties='true'><columnheader title='員工ID'><font
+ size='9pt' style='bold'/></columnheader></column>
+<column sort='descending' hidedetailrows='false' itemname='RefDate' width='18'
+ resizable='true' separatemultiplevalues='false' sortnoaccent='false' sortnocase='true'
+ showaslinks='false'><columnheader title='交易時間'><font size='9pt' style='bold'/></columnheader></column>
+<column hidedetailrows='false' itemname='TransType' width='8' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='true' showaslinks='false'><columnheader
+ title='類型'><font size='9pt' style='bold'/></columnheader></column>
+<column hidedetailrows='false' itemname='Amount' width='8' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='true' showaslinks='false'><columnheader
+ title='金額'><font size='9pt' style='bold'/></columnheader></column>
+<column hidedetailrows='false' itemname='Source' width='15' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='true' showaslinks='false'><columnheader
+ title='來源'><font size='9pt' style='bold'/></columnheader></column>
+<column hidedetailrows='false' itemname='Description' width='25' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='true' showaslinks='false'><columnheader
+ title='說明'><font size='9pt' style='bold'/></columnheader></column></view>
+

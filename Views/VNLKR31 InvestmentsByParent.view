@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='utf-8'?>
+<view name='VNLKR31 InvestmentsByParent' alias='VNLKR31' xmlns='http://www.lotus.com/dxl'
+ version='12.0' maintenanceversion='2.0' replicaid='48258E12005A8210' showinmenu='false'
+ noreplace='true' publicaccess='false' designerversion='8.5.3' unreadmarks='none'
+ onopengoto='lastopened' onrefresh='displayindicator' headers='beveled' opencollapsed='false'
+ showresponsehierarchy='false' showmargin='true' shrinkrows='false' extendlastcolumn='false'
+ showhierarchies='false' unreadcolor='black' rowlinecount='1' headerlinecount='1'
+ rowspacing='1' bgcolor='white' altrowcolor='#a1e2ff' totalscolor='black'
+ headerbgcolor='white' boldunreadrows='false' evaluateactions='false' allownewdocuments='false'
+ allowcustomizations='false' hidemarginborder='false' marginwidth='0px' marginbgcolor='white'
+ uniquekeys='false'>
+<noteinfo noteid='23a' unid='CA02ACB6687D7B1B48258E0C0044B642' sequence='18'>
+<created><datetime>20260604T203031,06+08</datetime></created>
+<modified><datetime>20260611T002836,55+08</datetime></modified>
+<revised><datetime>20260609T135130,44+08</datetime></revised>
+<lastaccessed><datetime>20260611T002836,54+08</datetime></lastaccessed>
+<addedtofile><datetime>20260611T002836,54+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=B11209013/O=XRedSchool</name></updatedby>
+<wassignedby><name>CN=B11209013/O=XRedSchool</name></wassignedby><code event='selection'><formula
+>SELECT Form = "FNLKR04"</formula></code>
+<column sort='ascending' hidedetailrows='false' itemname='$0' width='32' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='true' showaslinks='false'><columnheader
+ title='父文件UNID'><font size='9pt' style='bold'/></columnheader><code event='value'><formula
+>@Text(@InheritedDocumentUniqueID)</formula></code></column>
+<column totals='total' hidedetailrows='false' itemname='InvestAmount' width='12'
+ resizable='true' separatemultiplevalues='false' sortnoaccent='false' sortnocase='true'
+ showaslinks='false'><columnheader title='投資幣數'><font size='9pt' style='bold'/></columnheader></column>
+<column hidedetailrows='false' itemname='InvestorName' width='12' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='true' showaslinks='false'><columnheader
+ title='投資者'><font size='9pt' style='bold'/></columnheader></column>
+<column hidedetailrows='false' itemname='InvestDate' width='15' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='true' showaslinks='false'><columnheader
+ title='投資時間'><font size='9pt' style='bold'/></columnheader></column></view>
+

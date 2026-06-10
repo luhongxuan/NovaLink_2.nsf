@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='utf-8'?>
+<form name='FNLKM02 PeerThankCard' alias='FNLKM02' xmlns='http://www.lotus.com/dxl'
+ version='12.0' maintenanceversion='2.0' replicaid='48258E12005A8210' publicaccess='false'
+ designerversion='8.5.3' renderpassthrough='true'>
+<noteinfo noteid='21e' unid='DFDB61CFA788566A48258E0C0042861B' sequence='19'>
+<created><datetime>20260604T200637,07+08</datetime></created>
+<modified><datetime>20260611T002836,46+08</datetime></modified>
+<revised><datetime>20260609T134908,54+08</datetime></revised>
+<lastaccessed><datetime>20260611T002836,45+08</datetime></lastaccessed>
+<addedtofile><datetime>20260611T002836,45+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=B11209013/O=XRedSchool</name></updatedby>
+<wassignedby><name>CN=B11209013/O=XRedSchool</name></wassignedby><code event='options'><lotusscript
+>Option Declare
+Use "LNLKM01 VitalUtils"
+</lotusscript></code><code event='querysave'><lotusscript>Sub Querysave(Source As Notesuidocument, Continue As Variant)
+	Dim ss As New NotesSession
+	Dim recipID As String
+
+	recipID = Trim(Source.FieldGetText("RecipientID"))
+	If Lcase(recipID) = Lcase(Trim(ss.UserName)) Then
+		Messagebox "不可以發感謝卡給自己！", 16, "操作錯誤"
+		Continue = False
+	End If
+End Sub
+</lotusscript></code><code event='postsave'><lotusscript>Sub Postsave(Source As Notesuidocument)
+    Dim ss As New NotesSession
+    Dim db As NotesDatabase
+    Dim doc As NotesDocument
+    Dim senderID As String
+    Dim recipID As String
+    Dim isPublic As String
+    Dim cardType As String
+    Dim senderCN As String
+    Dim cardReadersArr(4) As String
+    Dim emptyArr(0) As String
+
+    Set db = ss.CurrentDatabase
+    Set doc = Source.Document
+
+    senderID = doc.SenderID(0)
+    recipID  = doc.RecipientID(0)
+    isPublic = doc.IsPublic(0)
+    cardType = doc.CardType(0)
+    senderCN = doc.SenderName(0)
+
+    If isPublic = "0" Then
+        cardReadersArr(0) = senderID
+        cardReadersArr(1) = recipID
+        cardReadersArr(2) = "[NLK_Manager]"
+        cardReadersArr(3) = "[NLK_HR]"
+        cardReadersArr(4) = "[NLK_SysAdmin]"
+        doc.CardReaders = cardReadersArr
+    Else
+        emptyArr(0) = ""
+        doc.CardReaders = emptyArr
+    End If
+    Call doc.Save(True, False)
+
+    ' 這裡使用了 CDATA，所以可以直接寫 &lt;&gt; 和 &amp;，不會再報錯了！
+    If doc.CoinIssued(0) &lt;&gt; "1" Then
+        Call NLK_IssueCoin(db, senderID, 2, "ThanksCard_Send", doc.UniversalID, _
+            "發送感謝卡（" &amp; cardType &amp; "）")
+        Call NLK_IssueCoin(db, recipID, 3, "ThanksCard_Recv", doc.UniversalID, _
+            "收到感謝卡（" &amp; cardType &amp; "）")
+        doc.CoinIssued = "1"
+        Call doc.Save(True, False)
+    End If
+
+    Call NLK_SendNotifyMail(recipID, _
+        "您收到一張感謝卡！", _
+        senderCN &amp; " 傳送了一張「" &amp; cardType &amp; "」感謝卡給您。")
+End Sub
+</lotusscript></code>
+<actionbar bgcolor='#f0f0f0' bordercolor='black'>
+<actionbuttonstyle bgcolor='#f0f0f0'/><font size='9pt' color='system'/><border
+ style='solid' width='0px 0px 1px'/>
+<action title='關閉'><code event='click'><formula>@Command([FileCloseWindow])</formula></code></action>
+<action title='儲存'><code event='click'><formula>@Command([FileSave]);
+@Prompt([Ok]; "送出成功"; "感謝卡已送出！");
+@Command([FileCloseWindow])</formula></code></action></actionbar>
+<body><richtext>
+<pardef id='1'/>
+<par def='1'><run><font size='12pt' name='serif'/><field type='text' kind='computedwhencomposed'
+ name='SenderID'><code event='defaultvalue'><formula>@UserName</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt' name='serif'/><field type='text' kind='computedwhencomposed'
+ name='SenderName'><code event='defaultvalue'><formula>@Name([CN]; @UserName)</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='5' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt' name='serif'/><field type='datetime' kind='computedwhencomposed'
+ name='SendDate'><datetimeformat show='date' date='yearmonthday' time='hourminutesecond'
+ zone='never' dateformat='weekdaymonthdayyear' dayformat='twodigitday' monthformat='twodigitmonth'
+ yearformat='fourdigityear' weekdayformat='shortname' dateseparator1=' ' dateseparator2='/'
+ dateseparator3='/' timeseparator=':' preference='usersetting'/><code event='defaultvalue'><formula
+>@Now</formula></code></field></run><compositedata type='98' prevtype='65418'
+ nexttype='222' afterparcount='5' containertype='65418' aftercontainercount='1'
+ afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt' name='serif'/><field type='text' kind='computedwhencomposed'
+ name='SendDateStr'><code event='defaultvalue'><formula>@Text(@Year(@Today)) + "/" + @Right("0" + @Text(@Month(@Today)); 2) + "/" + @Right("0" + @Text(@Day(@Today)); 2)</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='5' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt' name='serif'/><field type='text' kind='computed'
+ name='CoinIssued'><code event='defaultvalue'><formula>@ThisValue</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='5' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt' name='serif'/><field type='text' kind='computed'
+ name='IsFeatured'><code event='defaultvalue'><formula>@If(@ThisValue = ""; "0"; @ThisValue)</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='5' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt' name='serif'/><field type='readers' kind='computed'
+ name='CardReaders'><code event='defaultvalue'><formula>@If(IsPublic = "1"; ""; SenderID : RecipientID : "[NLK_Manager]" : "[NLK_HR]" : "[NLK_SysAdmin]")</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='5' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt' name='serif'/><field type='authors' kind='computedwhencomposed'
+ name='CardAuthors'><code event='defaultvalue'><formula>@UserName</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='5' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='14pt' style='bold'/>同儕感謝卡</run></par>
+<par def='1'><run><font size='12pt'/>收件者：</run><run><font size='12pt'/><field
+ choicesdialog='addressbook' lookupeachchar='false' lookupaddressonrefresh='false'
+ type='names' kind='editable' name='RecipientID'><code event='inputvalidation'><formula
+>@If(RecipientID = ""; @Failure("請選擇收件者！"); @Success)</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='7' containertype='65418'
+ aftercontainercount='1' afterbegincount='4'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt'/>收件者姓名：</run><run><font size='12pt'/><field
+ type='text' kind='computed' name='RecipientName'><code event='defaultvalue'><formula
+>@If(RecipientID != ""; @Name([CN]; RecipientID); "")</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt'/>卡片類型：</run><run><font size='12pt'/><field
+ type='keyword' kind='editable' name='CardType'><keywords ui='dialoglist'><textlist
+><text>🤝 神隊友</text><text>🚒 救火英雄</text><text>💡 好點子</text><text>🌐 跨部門合作</text><text
+>💛 溫暖鼓勵</text></textlist></keywords><code event='inputvalidation'><formula
+>@If(CardType = ""; @Failure("請選擇卡片類型！"); @Success)</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt'/>感謝訊息：</run><run><font size='12pt'/><field
+ type='richtext' kind='editable' name='CardMessage'/></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAEAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt'/>是否公開至感謝卡牆（1=公開 / 0=私密）：</run><run><font
+ size='12pt'/><field type='keyword' kind='editable' name='IsPublic'><keywords
+ ui='radiobutton'><textlist><text>1</text><text>0</text></textlist></keywords><code
+ event='defaultvalue'><formula>"1"</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par></richtext></body>
+<item name='$$ScriptName' summary='false' sign='true'><text>FNLKM02</text></item></form>
+

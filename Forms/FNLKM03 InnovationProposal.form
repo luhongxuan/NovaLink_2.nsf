@@ -1,0 +1,183 @@
+<?xml version='1.0' encoding='utf-8'?>
+<form name='FNLKM03 InnovationProposal' alias='FNLKM03' xmlns='http://www.lotus.com/dxl'
+ version='12.0' maintenanceversion='2.0' replicaid='48258E12005A8210' publicaccess='false'
+ designerversion='8.5.3' renderpassthrough='true'>
+<noteinfo noteid='222' unid='91EB10D6EECC923F48258E0C00428ADC' sequence='13'>
+<created><datetime>20260604T200649,24+08</datetime></created>
+<modified><datetime>20260611T002836,48+08</datetime></modified>
+<revised><datetime>20260609T134908,80+08</datetime></revised>
+<lastaccessed><datetime>20260611T002836,47+08</datetime></lastaccessed>
+<addedtofile><datetime>20260611T002836,47+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=B11209013/O=XRedSchool</name></updatedby>
+<wassignedby><name>CN=B11209013/O=XRedSchool</name></wassignedby><code event='options'><lotusscript
+>Option Declare
+Use "LNLKM01 VitalUtils"
+</lotusscript></code><code event='postsave'><lotusscript>Sub Postsave(Source As Notesuidocument)
+	Dim ss As New NotesSession
+	Dim db As NotesDatabase
+	Dim doc As NotesDocument
+
+	Set db = ss.CurrentDatabase
+	Set doc = Source.Document
+
+	If doc.CoinIssued_Submit(0) &lt;&gt; "1" Then
+		Call NLK_IssueCoin(db, doc.ProposerID(0), 5, "Proposal_Submit", _
+			doc.UniversalID, "提出創新提案：" &amp; doc.ProposalTitle(0))
+		doc.CoinIssued_Submit = "1"
+		Call doc.Save(True, False)
+	End If
+End Sub
+</lotusscript></code>
+<actionbar bgcolor='#f0f0f0' bordercolor='black'>
+<actionbuttonstyle bgcolor='#f0f0f0'/><font size='9pt' color='system'/><border
+ style='solid' width='0px 0px 1px'/>
+<action title='關閉'><code event='click'><formula>@Command([FileCloseWindow])</formula></code></action>
+<action title='儲存'><code event='click'><formula>@Command([FileSave]);
+@Command([FileCloseWindow])</formula></code></action>
+<action title='公開提案'><code event='click'><formula>@If(Status = "Draft";
+	@Do(
+		@SetField("Status"; "Open");
+		@Command([FileSave]);
+		@Prompt([Ok]; "提案已公開"; "提案已公開，開始募集活力幣！")
+	);
+	@Prompt([Ok]; "無法操作"; "提案目前狀態為「" &amp; Status &amp; "」，無法公開。")
+)</formula></code></action></actionbar>
+<body><richtext>
+<pardef id='1'/>
+<par def='1'><run><font size='12pt' name='serif'/><field type='text' kind='computedwhencomposed'
+ name='ProposerID'><code event='defaultvalue'><formula>@UserName</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt' name='serif'/><field type='text' kind='computedwhencomposed'
+ name='ProposerName'><code event='defaultvalue'><formula>@Name([CN]; @UserName)</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='5' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt' name='serif'/><field type='datetime' kind='computedwhencomposed'
+ name='CreateDate'><datetimeformat show='date' date='yearmonthday' time='hourminutesecond'
+ zone='never' dateformat='weekdaymonthdayyear' dayformat='twodigitday' monthformat='twodigitmonth'
+ yearformat='fourdigityear' weekdayformat='shortname' dateseparator1=' ' dateseparator2='/'
+ dateseparator3='/' timeseparator=':' preference='usersetting'/><code event='defaultvalue'><formula
+>@Now</formula></code></field></run><compositedata type='98' prevtype='65418'
+ nexttype='222' afterparcount='5' containertype='65418' aftercontainercount='1'
+ afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt' name='serif'/><field type='text' kind='computed'
+ name='Status'><code event='defaultvalue'><formula>@If(@ThisValue = ""; "Draft"; @ThisValue)</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='5' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt' name='serif'/><field type='text' kind='computed'
+ name='CoinIssued_Submit'><code event='defaultvalue'><formula>@If(@ThisValue = ""; "0"; @ThisValue)</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='5' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt' name='serif'/><field type='text' kind='computed'
+ name='CoinIssued_Funded'><code event='defaultvalue'><formula>@If(@ThisValue = ""; "0"; @ThisValue)</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='5' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt' name='serif'/><field type='text' kind='computed'
+ name='CoinIssued_Adopted'><code event='defaultvalue'><formula>@If(@ThisValue = ""; "0"; @ThisValue)</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='5' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt' name='serif'/><field type='number' kind='computed'
+ name='CurrentCoins'><numberformat format='general' varying='true' punctuated='false'
+ parens='false' percent='false' bytes='false'/><code event='defaultvalue'><formula
+>@If(@ThisValue = ""; 0; @ThisValue)</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='5' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt' name='serif'/><field type='readers' kind='computed'
+ name='ProposalReaders'><code event='defaultvalue'><formula>@If(Status = "Draft"; ProposerID : "[NLK_SysAdmin]"; "")</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='5' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt' name='serif'/><field type='authors' kind='computedwhencomposed'
+ name='ProposalAuthors'><code event='defaultvalue'><formula>@UserName : "[NLK_SysAdmin]"</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='5' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='14pt' style='bold'/>創新提案</run></par>
+<par def='1'><run><font size='12pt'/>提案狀態：</run><run><font size='12pt'/><field
+ type='text' kind='computed' name='StatusDisplay'><code event='defaultvalue'><formula
+>@If(Status = "Draft"; "草稿";
+Status = "Open"; "公開募資中";
+Status = "Pending"; "達標待審";
+Status = "Review"; "審核中";
+Status = "Approved"; "已採用";
+Status = "Rejected"; "已退回";
+Status)</formula></code></field></run><compositedata type='98' prevtype='65418'
+ nexttype='222' afterparcount='6' containertype='65418' aftercontainercount='1'
+ afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt'/>提案標題：</run><run><font size='12pt'/><field
+ type='text' kind='editable' name='ProposalTitle'><code event='inputvalidation'><formula
+>@If(ProposalTitle = ""; @Failure("請輸入提案標題！"); @Success)</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt'/>類別：</run><run><font size='12pt'/><field
+ type='keyword' kind='editable' name='Category'><keywords ui='dialoglist'><textlist
+><text>流程改善</text><text>產品創新</text><text>文化活動</text><text>IT 優化</text><text
+>其他</text></textlist></keywords></field></run><compositedata type='98' prevtype='65418'
+ nexttype='222' afterparcount='6' containertype='65418' aftercontainercount='1'
+ afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt'/>問題描述：</run><run><font size='12pt'/><field
+ type='richtext' kind='editable' name='ProblemDesc'/></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAEAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt'/>解決方案：</run><run><font size='12pt'/><field
+ type='richtext' kind='editable' name='SolutionDesc'/></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAEAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt'/>預期效益（選填）：</run><run><font size='12pt'/><field
+ type='richtext' kind='editable' name='ExpectedBenefit'/></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAEAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt'/>目標活力幣數：</run><run><font size='12pt'/><field
+ type='number' kind='editable' name='TargetCoins'><numberformat format='general'
+ varying='true' punctuated='false' parens='false' percent='false' bytes='false'/><code
+ event='defaultvalue'><formula>100</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt'/>目前累積活力幣：</run><run><font size='12pt'/><field
+ type='number' kind='computed' name='CurrentCoinsDisplay'><numberformat format='general'
+ varying='true' punctuated='false' parens='false' percent='false' bytes='false'/><code
+ event='defaultvalue'><formula>CurrentCoins</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt'/>審核意見：</run><run><font size='12pt'/><field
+ type='richtext' kind='editable' name='ReviewNote'/></run><compositedata type='98'
+ prevtype='65418' nexttype='222' afterparcount='6' containertype='65418' aftercontainercount='1'
+ afterbegincount='3'>
+Yg4BAIQAAAAAAAEAAAA=
+</compositedata></par></richtext></body>
+<item name='$$ScriptName' summary='false' sign='true'><text>FNLKM03</text></item></form>
+

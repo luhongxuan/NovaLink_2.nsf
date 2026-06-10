@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='utf-8'?>
+<form name='FNLKM01 MoodCheckIn' alias='FNLKM01' xmlns='http://www.lotus.com/dxl'
+ version='12.0' maintenanceversion='2.0' replicaid='48258E12005A8210' publicaccess='false'
+ designerversion='8.5.3' renderpassthrough='true'>
+<noteinfo noteid='216' unid='0F4EBB70E7A8137648258E0C003F77D8' sequence='21'>
+<created><datetime>20260604T193314,48+08</datetime></created>
+<modified><datetime>20260611T002836,43+08</datetime></modified>
+<revised><datetime>20260609T134908,29+08</datetime></revised>
+<lastaccessed><datetime>20260611T002836,42+08</datetime></lastaccessed>
+<addedtofile><datetime>20260611T002836,42+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=B11209013/O=XRedSchool</name></updatedby>
+<wassignedby><name>CN=B11209013/O=XRedSchool</name></wassignedby><code event='options'><lotusscript
+>Option Declare
+Use "LNLKM01 VitalUtils"
+</lotusscript></code><code event='querysave'><lotusscript>Sub Querysave(Source As Notesuidocument, Continue As Variant)
+	Dim ss As New NotesSession
+	Dim db As NotesDatabase
+	Dim view As NotesView
+	Dim doc As NotesDocument
+	Dim keyArr(1) As String
+
+	Set db = ss.CurrentDatabase
+	Set view = db.GetView("VNLKM10")
+	If view Is Nothing Then Exit Sub
+
+	keyArr(0) = ss.UserName
+	keyArr(1) = Format(Now(), "YYYY/MM/DD")
+
+	Set doc = view.GetDocumentByKey(keyArr, True)
+	If Not (doc Is Nothing) Then
+		If doc.UniversalID &lt;&gt; Source.Document.UniversalID Then
+			Messagebox "您今天已經填寫過情緒溫度計了！", 16, "重複填寫"
+			Continue = False
+		End If
+	End If
+End Sub
+</lotusscript></code><code event='postsave'><lotusscript>Sub Postsave(Source As Notesuidocument)
+	Dim ss As New NotesSession
+	Dim db As NotesDatabase
+	Dim doc As NotesDocument
+
+	Set db = ss.CurrentDatabase
+	Set doc = Source.Document
+
+	If doc.CoinIssued(0) &lt;&gt; "1" Then
+		Call NLK_IssueCoin(db, ss.UserName, 1, "MoodEntry", _
+		doc.UniversalID, "每日填寫情緒溫度計")
+		doc.CoinIssued = "1"
+		Call doc.Save(True, False)
+	End If
+End Sub
+</lotusscript></code>
+<actionbar bgcolor='#f0f0f0' bordercolor='black'>
+<actionbuttonstyle bgcolor='#f0f0f0'/><font size='9pt' color='system'/><border
+ style='solid' width='0px 0px 1px'/>
+<action title='關閉'><code event='click'><formula>@Command([FileCloseWindow])</formula></code></action>
+<action title='儲存'><code event='click'><formula>@Command([FileSave]);
+@Prompt([Ok]; "填寫成功"; "情緒溫度計已記錄！");
+@Command([FileCloseWindow])</formula></code></action></actionbar>
+<body><richtext>
+<pardef id='1'/>
+<par def='1'><run><font size='12pt' name='serif'/><field type='text' kind='computedwhencomposed'
+ name='EmployeeID'><code event='defaultvalue'><formula>@UserName</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt' name='serif'/><field type='text' kind='computedwhencomposed'
+ name='EmployeeName'><code event='defaultvalue'><formula>@Name([CN]; @UserName)</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='5' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt' name='serif'/><field type='datetime' kind='computedwhencomposed'
+ name='MoodDate'><datetimeformat show='date' date='yearmonthday' time='hourminutesecond'
+ zone='never' dateformat='weekdaymonthdayyear' dayformat='twodigitday' monthformat='twodigitmonth'
+ yearformat='fourdigityear' weekdayformat='shortname' dateseparator1=' ' dateseparator2='/'
+ dateseparator3='/' timeseparator=':' preference='usersetting'/><code event='defaultvalue'><formula
+>@Today</formula></code></field></run><compositedata type='98' prevtype='65418'
+ nexttype='222' afterparcount='5' containertype='65418' aftercontainercount='1'
+ afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt' name='serif'/><field type='text' kind='computedwhencomposed'
+ name='MoodDateStr'><code event='defaultvalue'><formula>@Text(@Today)</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='5' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt' name='serif'/><field type='text' kind='computed'
+ name='CoinIssued'><code event='defaultvalue'><formula>@ThisValue</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='5' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt' name='serif'/><field type='readers' kind='computed'
+ name='MoodReaders'><code event='defaultvalue'><formula>EmployeeID : "[NLK_HR]" : "[NLK_Manager]" : "[NLK_SysAdmin]"</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='5' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt' name='serif'/><field type='authors' kind='computedwhencomposed'
+ name='MoodAuthors'><code event='defaultvalue'><formula>@UserName</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='5' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='14pt' style='bold'/>情緒溫度計</run></par>
+<par def='1'><run><font size='12pt'/>部門：</run><run><font size='12pt'/><field
+ type='text' kind='editable' name='Department'/></run><compositedata type='98'
+ prevtype='65418' nexttype='222' afterparcount='6' containertype='65418' aftercontainercount='1'
+ afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt'/>情緒分數（1=很低落 ～ 5=超棒）：</run><run><font size='12pt'/><field
+ type='keyword' kind='editable' name='MoodScore'><keywords ui='radiobutton'><textlist
+><text>1</text><text>2</text><text>3</text><text>4</text><text>5</text></textlist></keywords><code
+ event='inputvalidation'><formula>@If(MoodScore = ""; @Failure("請選擇情緒分數！"); @Success)</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt'/>壓力程度（1=很輕鬆 ～ 5=壓力很大）：</run><run><font
+ size='12pt'/><field type='keyword' kind='editable' name='StressLevel'><keywords
+ ui='radiobutton'><textlist><text>1</text><text>2</text><text>3</text><text
+>4</text><text>5</text></textlist></keywords></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt'/>今日一句話（選填）：</run><run><font size='12pt'/><field
+ type='text' kind='editable' name='MoodNote'/></run><compositedata type='98'
+ prevtype='65418' nexttype='222' afterparcount='6' containertype='65418' aftercontainercount='1'
+ afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt'/>是否公開今日一句話（0=不公開 / 1=公開）：</run><run><font
+ size='12pt'/><field type='keyword' kind='editable' name='IsNotePublic'><keywords
+ ui='radiobutton'><textlist><text>0</text><text>1</text></textlist></keywords><code
+ event='defaultvalue'><formula>"0"</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par></richtext></body>
+<item name='$$ScriptName' summary='false' sign='true'><text>FNLKM01</text></item></form>
+

@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='utf-8'?>
+<agent name='ANLKM01' alias='ANLKM01' xmlns='http://www.lotus.com/dxl' version='12.0'
+ maintenanceversion='2.0' replicaid='48258E12005A8210' hide='v3' publicaccess='false'
+ designerversion='8.5.3'>
+<noteinfo noteid='24a' unid='62A40D525699C18B48258E0C0044EEF2' sequence='15'>
+<created><datetime>20260604T203256,18+08</datetime></created>
+<modified><datetime>20260611T002836,60+08</datetime></modified>
+<revised><datetime>20260609T134907,71+08</datetime></revised>
+<lastaccessed><datetime>20260611T002836,59+08</datetime></lastaccessed>
+<addedtofile><datetime>20260611T002836,59+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=B11209013/O=XRedSchool</name></updatedby>
+<wassignedby><name>CN=B11209013/O=XRedSchool</name></wassignedby>
+<designchange><datetime>20260609T134907,78+08</datetime></designchange>
+<trigger type='actionsmenu'/>
+<documentset type='selected'/><code event='options'><lotusscript>Option Public
+Option Declare
+Use "LNLKM01 VitalUtils"
+
+</lotusscript></code><code event='initialize'><lotusscript>Sub Initialize
+	Dim ss As New NotesSession
+	Dim db As NotesDatabase
+	Dim view As NotesView
+	Dim doc As NotesDocument
+	Dim nextDoc As NotesDocument
+	Dim currentCoins As Long
+	Dim targetCoins As Long
+
+	Set db = ss.CurrentDatabase
+	Set view = db.GetView("VNLKM30")
+	If view Is Nothing Then Exit Sub
+
+	Set doc = view.GetFirstDocument()
+	Do While Not (doc Is Nothing)
+		Set nextDoc = view.GetNextDocument(doc)
+
+		If doc.Status(0) = "Open" Then
+			currentCoins = Clng(doc.CurrentCoins(0))
+			targetCoins  = Clng(doc.TargetCoins(0))
+
+			If currentCoins &gt;= targetCoins And targetCoins &gt; 0 Then
+				doc.Status = "Pending"
+				Call doc.Save(True, False)
+
+				If doc.CoinIssued_Funded(0) &lt;&gt; "1" Then
+					Call NLK_IssueCoin(db, doc.ProposerID(0), 50, "Proposal_Funded", _
+						doc.UniversalID, "提案達標：" &amp; doc.ProposalTitle(0))
+					doc.CoinIssued_Funded = "1"
+					Call doc.Save(True, False)
+				End If
+
+				Call NLK_SendNotifyMail(doc.ProposerID(0), _
+					"您的提案已達標！", _
+					"提案「" &amp; doc.ProposalTitle(0) &amp; "」已達到目標，進入審核，並獲得 +50 活力幣！")
+			End If
+		End If
+
+		Set doc = nextDoc
+	Loop
+End Sub</lotusscript></code></agent>
+

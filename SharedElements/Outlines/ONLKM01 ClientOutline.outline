@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='utf-8'?>
+<outline name='ONLKM01 ClientOutline' alias='ONLKM01' xmlns='http://www.lotus.com/dxl'
+ version='12.0' maintenanceversion='2.0' replicaid='48258E12005A8210' publicaccess='false'
+ designerversion='8.5.3'>
+<noteinfo noteid='24e' unid='64EA217E0A134EAD48258E0C0045C2B7' sequence='13'>
+<created><datetime>20260604T204158,31+08</datetime></created>
+<modified><datetime>20260611T002836,62+08</datetime></modified>
+<revised><datetime>20260609T134909,77+08</datetime></revised>
+<lastaccessed><datetime>20260611T002836,61+08</datetime></lastaccessed>
+<addedtofile><datetime>20260611T002836,61+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=B11209013/O=XRedSchool</name></updatedby>
+<outlineentry label='情緒溫度計' type='none'/>
+<outlineentry label='填寫今日情緒' level='1' type='namedelementlink'><namedelementlink
+ type='view' name='VNLKM10'/></outlineentry>
+<outlineentry label='同儕感謝卡' type='none'/>
+<outlineentry label='感謝卡牆' level='1' type='namedelementlink'><namedelementlink
+ type='view' name='VNLKM20'/></outlineentry>
+<outlineentry label='我的收件箱' level='1' type='namedelementlink'><namedelementlink
+ type='view' name='VNLKM21'/></outlineentry>
+<outlineentry label='創新提案' type='none'/>
+<outlineentry label='提案列表' level='1' type='namedelementlink'><namedelementlink
+ type='view' name='VNLKM30'/></outlineentry>
+<outlineentry label='活力幣' type='none'/>
+<outlineentry label='我的交易紀錄' level='1' type='namedelementlink'><namedelementlink
+ type='view' name='VNLKT51'/></outlineentry></outline>
+

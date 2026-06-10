@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='utf-8'?>
+<form name='FNLKR04 ProposalInvestment' alias='FNLKR04' xmlns='http://www.lotus.com/dxl'
+ version='12.0' maintenanceversion='2.0' replicaid='48258E12005A8210' publicaccess='false'
+ designerversion='8.5.3' renderpassthrough='true'>
+<noteinfo noteid='226' unid='015583748821D3C948258E0C00429043' sequence='13'>
+<created><datetime>20260604T200703,07+08</datetime></created>
+<modified><datetime>20260611T002836,49+08</datetime></modified>
+<revised><datetime>20260609T134909,34+08</datetime></revised>
+<lastaccessed><datetime>20260611T002836,48+08</datetime></lastaccessed>
+<addedtofile><datetime>20260611T002836,48+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=B11209013/O=XRedSchool</name></updatedby>
+<wassignedby><name>CN=B11209013/O=XRedSchool</name></wassignedby><code event='options'><lotusscript
+>Option Declare
+Use "LNLKM01 VitalUtils"
+</lotusscript></code><code event='querysave'><lotusscript>Sub Querysave(Source As Notesuidocument, Continue As Variant)
+	Dim ss As New NotesSession
+	Dim db As NotesDatabase
+	Dim balance As Long
+	Dim investAmt As Long
+	Dim amtStr As String
+
+	Set db = ss.CurrentDatabase
+
+	amtStr = Trim(Source.FieldGetText("InvestAmount"))
+	If amtStr = "" Or Not Isnumeric(amtStr) Then
+		Messagebox "請輸入有效的投資幣數！", 16, "輸入錯誤"
+		Continue = False
+		Exit Sub
+	End If
+
+	investAmt = Clng(amtStr)
+	If investAmt &lt;= 0 Then
+		Messagebox "投資幣數必須大於 0！", 16, "輸入錯誤"
+		Continue = False
+		Exit Sub
+	End If
+
+	balance = NLK_GetBalance(db, ss.UserName)
+	If investAmt &gt; balance Then
+		Messagebox "活力幣餘額不足！" &amp; Chr(10) &amp; _
+			"目前餘額：" &amp; Cstr(balance) &amp; " 幣" &amp; Chr(10) &amp; _
+			"投資金額：" &amp; Cstr(investAmt) &amp; " 幣", 16, "餘額不足"
+		Continue = False
+	End If
+End Sub
+</lotusscript></code><code event='postsave'><lotusscript>Sub Postsave(Source As Notesuidocument)
+	Dim ss As New NotesSession
+	Dim db As NotesDatabase
+	Dim doc As NotesDocument
+	Dim parentDoc As NotesDocument
+	Dim view As NotesView
+	Dim col As NotesViewEntryCollection
+	Dim ent As NotesViewEntry
+	Dim total As Long
+	Dim targetCoins As Long
+	Dim investAmt As Long
+
+	Set db = ss.CurrentDatabase
+	Set doc = Source.Document
+	investAmt = Clng(doc.InvestAmount(0))
+
+	If doc.CoinIssued(0) &lt;&gt; "1" Then
+		Call NLK_IssueCoin(db, ss.UserName, -investAmt, "ProposalInvest", _
+			doc.UniversalID, "投資提案")
+		doc.CoinIssued = "1"
+		Call doc.Save(True, False)
+	End If
+
+	Set parentDoc = doc.ParentDocument
+	If parentDoc Is Nothing Then Exit Sub
+
+	Set view = db.GetView("VNLKR31")
+	If view Is Nothing Then Exit Sub
+
+	Set col = view.GetAllEntriesByKey(parentDoc.UniversalID, True)
+	total = 0
+	Set ent = col.GetFirstEntry()
+	Do While Not (ent Is Nothing)
+		total = total + Clng(ent.ColumnValues(1))
+		Set ent = col.GetNextEntry(ent)
+	Loop
+
+	parentDoc.CurrentCoins = total
+	Call parentDoc.Save(True, False)
+
+	targetCoins = Clng(parentDoc.TargetCoins(0))
+	If total &gt;= targetCoins And parentDoc.Status(0) = "Open" Then
+		parentDoc.Status = "Pending"
+		Call parentDoc.Save(True, False)
+
+		If parentDoc.CoinIssued_Funded(0) &lt;&gt; "1" Then
+			Call NLK_IssueCoin(db, parentDoc.ProposerID(0), 50, "Proposal_Funded", _
+				parentDoc.UniversalID, "提案達標：" &amp; parentDoc.ProposalTitle(0))
+			parentDoc.CoinIssued_Funded = "1"
+			Call parentDoc.Save(True, False)
+		End If
+
+		Call NLK_SendNotifyMail(parentDoc.ProposerID(0), _
+			"您的提案已達標！", _
+			"提案「" &amp; parentDoc.ProposalTitle(0) &amp; "」已達到目標，進入審核，並獲得 +50 活力幣！")
+	End If
+End Sub
+</lotusscript></code>
+<actionbar bgcolor='#f0f0f0' bordercolor='black'>
+<actionbuttonstyle bgcolor='#f0f0f0'/><font size='9pt' color='system'/><border
+ style='solid' width='0px 0px 1px'/>
+<action title='關閉'><code event='click'><formula>@Command([FileCloseWindow])</formula></code></action>
+<action title='確認投資'><code event='click'><formula>@Command([FileSave]);
+@Prompt([Ok]; "投資成功"; "活力幣已投資！");
+@Command([FileCloseWindow])</formula></code></action></actionbar>
+<body><richtext>
+<pardef id='1'/>
+<par def='1'><run><font size='12pt' name='serif'/><field type='text' kind='computedwhencomposed'
+ name='InvestorID'><code event='defaultvalue'><formula>@UserName</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt' name='serif'/><field type='text' kind='computedwhencomposed'
+ name='InvestorName'><code event='defaultvalue'><formula>@Name([CN]; @UserName)</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='5' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt' name='serif'/><field type='datetime' kind='computedwhencomposed'
+ name='InvestDate'><datetimeformat show='date' date='yearmonthday' time='hourminutesecond'
+ zone='never' dateformat='weekdaymonthdayyear' dayformat='twodigitday' monthformat='twodigitmonth'
+ yearformat='fourdigityear' weekdayformat='shortname' dateseparator1=' ' dateseparator2='/'
+ dateseparator3='/' timeseparator=':' preference='usersetting'/><code event='defaultvalue'><formula
+>@Now</formula></code></field></run><compositedata type='98' prevtype='65418'
+ nexttype='222' afterparcount='5' containertype='65418' aftercontainercount='1'
+ afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt' name='serif'/><field type='text' kind='computed'
+ name='CoinIssued'><code event='defaultvalue'><formula>@If(@ThisValue = ""; "0"; @ThisValue)</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='5' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='14pt' style='bold'/>投資創新提案</run></par>
+<par def='1'><run><font size='12pt'/>投資活力幣數量：</run><run><font size='12pt'/><field
+ type='number' kind='editable' name='InvestAmount'><numberformat format='general'
+ varying='true' punctuated='false' parens='false' percent='false' bytes='false'/></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt'/>留言（選填）：</run><run><font size='12pt'/><field
+ type='text' kind='editable' name='InvestNote'/></run><compositedata type='98'
+ prevtype='65418' nexttype='222' afterparcount='6' containertype='65418' aftercontainercount='1'
+ afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par></richtext></body>
+<item name='$$ScriptName' summary='false' sign='true'><text>FNLKR04</text></item></form>
+
