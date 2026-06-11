@@ -30,9 +30,12 @@
         </nav>
       </div>
       <div class="header-right">
+        <button class="btn-dark-toggle" @click="toggleDark" :title="darkMode ? '切換淺色模式' : '切換深色模式'">
+          {{ darkMode ? '☀️' : '🌙' }}
+        </button>
         <div class="user-badge">
           <div class="avatar">{{ greetingName ? greetingName.charAt(0) : 'U' }}</div>
-          <span class="user-name">{{ greetingName }}</span>
+          <span class="user-name">{{ greetingName }} <span v-if="userTitle" class="user-title-badge">{{ userTitle }}</span></span>
         </div>
       </div>
     </header>
@@ -190,8 +193,11 @@
                 <div class="flow-node highlight">{{ c.RecipientName }}</div>
               </div>
             </div>
-            <div class="card-footer">
+            <div class="card-footer" style="display:flex;justify-content:space-between;align-items:center">
               <span class="mono-date">{{ c.SendDateStr }}</span>
+              <button class="btn-like" @click="likeCard(c)" :disabled="c._liking">
+                👍 {{ c.LikeCount || 0 }}
+              </button>
             </div>
           </div>
         </div>
@@ -293,6 +299,226 @@
               </tr>
             </tbody>
           </table>
+        </div>
+      </section>
+      <section v-if="currentPage === 'shop'" class="view-section">
+        <div class="page-heading">
+          <h1 class="page-title">活力幣商城</h1>
+          <p class="page-subtitle">使用活力幣兌換特權與虛擬裝飾，目前餘額：<strong class="theme-text">{{ fmt(balance) }}</strong> 幣</p>
+        </div>
+
+        <div class="shop-grid">
+          <div class="card shop-card" v-for="item in shopItems" :key="item.id"
+               :class="{'shop-owned': item.once && ownedItemIds.includes(item.id)}">
+            <div class="card-body">
+              <div class="shop-icon">{{ item.name.split(' ')[0] }}</div>
+              <h3 class="shop-name">{{ item.name.substring(item.name.indexOf(' ')+1) }}</h3>
+              <p class="shop-desc">{{ item.desc }}</p>
+              <div class="shop-meta">
+                <span class="shop-price">{{ item.price }} 幣</span>
+                <span class="shop-type tag" :class="item.type === 'virtual' ? 'tag-blue' : ''">
+                  {{ item.type === 'virtual' ? '虛擬裝飾' : '實體特權' }}
+                </span>
+              </div>
+            </div>
+            <div class="card-footer">
+              <button class="btn" :class="canBuyItem(item) ? 'btn-primary' : 'btn-outline'"
+                      :disabled="!canBuyItem(item)" @click="buyItem(item)">
+                {{ buyItemLabel(item) }}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div v-if="shopPurchases.length > 0" style="margin-top:40px">
+          <div class="section-header">
+            <h2 class="section-title">我的購買紀錄</h2>
+          </div>
+          <div class="table-wrapper card">
+            <table class="data-table">
+              <thead><tr><th>購買時間</th><th>商品</th><th class="text-right">花費</th><th>類型</th></tr></thead>
+              <tbody>
+                <tr v-for="p in shopPurchases" :key="p['@unid']">
+                  <td class="mono-date">{{ fmtDateTime(p.PurchaseDate) }}</td>
+                  <td><strong class="text-dark">{{ p.ItemName }}</strong></td>
+                  <td class="text-right font-num text-negative">-{{ p.ItemPrice }}</td>
+                  <td><span class="tag" :class="p.ItemType === 'virtual' ? 'tag-blue' : ''">{{ p.ItemType === 'virtual' ? '虛擬裝飾' : '實體特權' }}</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+      <section v-if="currentPage === 'bounty'" class="view-section">
+        <div class="page-heading with-action">
+          <div>
+            <h1 class="page-title">懸賞任務板</h1>
+            <p class="page-subtitle">發布任務、接單完成、活力幣直接 C2C 轉帳。</p>
+          </div>
+          <button class="btn btn-primary" @click="openModal('bounty')">發布懸賞</button>
+        </div>
+
+        <div v-if="loading" class="loading-state">資料載入中...</div>
+        <div v-else-if="bountyList.length === 0" class="empty-state bordered">
+          <div class="empty-icon">🎯</div>
+          目前沒有懸賞任務，成為第一個發布的人吧！
+        </div>
+        <div v-else class="bounty-list">
+          <div class="card bounty-card" v-for="b in bountyList" :key="b['@unid']"
+               :class="'bounty-'+b.Status">
+            <div class="card-body" style="padding:24px">
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:12px">
+                <div>
+                  <h3 class="item-title">{{ b.TaskTitle }}</h3>
+                  <div class="item-details" style="margin-bottom:0;margin-top:6px">
+                    <span>發包人：{{ b.PosterName || cnName(b.PosterID) }}</span>
+                    <span v-if="b.TaskCategory">類別：{{ b.TaskCategory }}</span>
+                    <span>{{ b.CreateDateStr }}</span>
+                  </div>
+                </div>
+                <div style="text-align:right;flex:none">
+                  <div class="bounty-amount">{{ b.BountyAmount }} 幣</div>
+                  <span class="badge" :class="'badge-bounty-'+b.Status">{{ bountyStatusLabel(b.Status) }}</span>
+                </div>
+              </div>
+
+              <div v-if="b.TaskDesc" class="quote-box" style="margin-top:12px;margin-bottom:16px">{{ b.TaskDesc }}</div>
+
+              <div v-if="b.AcceptorName" style="font-size:13px;color:var(--text-secondary);margin-bottom:12px">
+                接單者：<strong class="text-dark">{{ b.AcceptorName || cnName(b.AcceptorID) }}</strong>
+              </div>
+
+              <div class="bounty-actions">
+                <!-- Open 狀態：別人可接單，自己可取消 -->
+                <template v-if="b.Status === 'Open'">
+                  <button v-if="!isMyBounty(b)" class="btn btn-secondary" @click="acceptBounty(b)">我來接單</button>
+                  <button v-if="isMyBounty(b)" class="btn btn-outline" @click="cancelBounty(b)">取消懸賞</button>
+                </template>
+                <!-- Accepted 狀態：發包人可確認完成 -->
+                <template v-if="b.Status === 'Accepted' && isMyBounty(b)">
+                  <button class="btn btn-primary" @click="completeBounty(b)">確認完成，發放獎勵</button>
+                </template>
+                <template v-if="b.Status === 'Accepted' && !isMyBounty(b)">
+                  <span class="tag">等待發包人確認完成</span>
+                </template>
+                <template v-if="b.Status === 'Completed'">
+                  <span class="tag" style="background:#EAF3EC;color:var(--status-success)">已完成結算</span>
+                </template>
+                <template v-if="b.Status === 'Cancelled'">
+                  <span class="tag">已取消</span>
+                </template>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section v-if="currentPage === 'profile'" class="view-section">
+        <div class="page-heading">
+          <h1 class="page-title">個人頁面</h1>
+          <p class="page-subtitle">檢視你的貢獻數據與技能定位。</p>
+        </div>
+
+        <!-- 個人資訊卡 -->
+        <div class="profile-header card">
+          <div class="profile-avatar">{{ greetingName ? greetingName.charAt(0) : 'U' }}</div>
+          <div class="profile-info">
+            <h2 class="profile-name">{{ greetingName }} <span v-if="userTitle" class="user-title-badge">{{ userTitle }}</span></h2>
+            <div class="profile-id mono-date">{{ currentUser }}</div>
+            <div class="profile-balance">可用活力幣：<strong class="theme-text">{{ fmt(balance) }}</strong></div>
+          </div>
+        </div>
+
+        <!-- 統計數據 -->
+        <div class="metrics-row" style="margin-top:24px">
+          <div class="metric-card">
+            <div class="metric-label">填寫情緒天數</div>
+            <div class="metric-value">{{ profileStats.moodDays }}</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">送出感謝卡</div>
+            <div class="metric-value">{{ profileStats.sent }}</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">收到感謝卡</div>
+            <div class="metric-value">{{ profileStats.received }}</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">發起提案數</div>
+            <div class="metric-value">{{ profileStats.proposals }}</div>
+          </div>
+        </div>
+
+        <!-- 技能雷達圖 -->
+        <div class="radar-section" style="margin-top:32px">
+          <div class="section-header">
+            <h2 class="section-title">技能雷達圖</h2>
+          </div>
+          <p style="font-size:13px;color:var(--text-secondary);margin-bottom:20px">根據你收到的感謝卡類型自動生成，反映你在團隊中的角色定位。</p>
+
+          <div class="radar-container card" style="padding:32px;display:flex;align-items:center;justify-content:center;gap:40px;flex-wrap:wrap">
+            <svg width="280" height="280" viewBox="0 0 280 280" class="radar-svg">
+              <!-- 網格 -->
+              <polygon v-for="level in [0.25, 0.5, 0.75, 1.0]" :key="level"
+                       :points="radarGridPoints(level)"
+                       fill="none" :stroke="level===1?'var(--border-dark)':'var(--border-base)'" stroke-width="1"/>
+              <!-- 軸線 -->
+              <line v-for="(lp, i) in radarLabelPositions" :key="'axis'+i"
+                    x1="140" y1="140" :x2="lp.x" :y2="lp.y"
+                    stroke="var(--border-base)" stroke-width="1"/>
+              <!-- 資料面 -->
+              <polygon :points="radarPoints"
+                       fill="var(--primary-light)" stroke="var(--primary)" stroke-width="2.5" opacity="0.85"/>
+              <!-- 資料點 -->
+              <circle v-for="(pt, i) in radarPoints.split(' ')" :key="'dot'+i"
+                      :cx="pt.split(',')[0]" :cy="pt.split(',')[1]"
+                      r="4" fill="var(--primary)" stroke="var(--bg-surface)" stroke-width="2"/>
+              <!-- 標籤 -->
+              <text v-for="(lp, i) in radarLabelPositions" :key="'label'+i"
+                    :x="lp.x" :y="lp.y + (i === 0 ? -8 : (i < 3 ? 4 : 4))"
+                    :text-anchor="lp.anchor"
+                    fill="var(--text-main)" font-size="12" font-weight="600">
+                {{ lp.label }}
+              </text>
+            </svg>
+
+            <div class="radar-legend">
+              <h3 style="font-size:16px;font-weight:600;margin-bottom:16px">技能分佈</h3>
+              <div class="radar-legend-item" v-for="(lp, i) in radarLabelPositions" :key="'leg'+i">
+                <div class="legend-bar-wrap">
+                  <span class="legend-label">{{ lp.label }}</span>
+                  <span class="legend-count font-num">{{ lp.count }}</span>
+                </div>
+                <div class="meter-track" style="height:6px">
+                  <div class="meter-fill theme-color" :style="{width: (skillRadar.max > 0 ? lp.count / skillRadar.max * 100 : 0) + '%'}"></div>
+                </div>
+              </div>
+              <div v-if="skillRadar.counts.every(c => c === 0)" style="color:var(--text-tertiary);font-size:13px;margin-top:12px">
+                尚未收到感謝卡，收到後這裡會自動顯示你的技能分佈。
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 最近收到的感謝卡 -->
+        <div style="margin-top:32px">
+          <div class="section-header">
+            <h2 class="section-title">最近收到的感謝</h2>
+            <a class="link-text" @click="go('thanks')">查看感謝卡牆</a>
+          </div>
+          <div class="card" style="overflow:hidden">
+            <div v-if="thanksList.filter(c => c.RecipientName === cnName(currentUser)).length === 0" class="empty-state mini">
+              尚未收到感謝卡。
+            </div>
+            <ul v-else class="data-list">
+              <li v-for="c in thanksList.filter(c => c.RecipientName === cnName(currentUser)).slice(0,5)" :key="c['@unid']" class="list-item">
+                <div class="list-main">
+                  <span class="tag tag-blue">{{ c.CardType }}</span>
+                  <span class="text-content">來自 <strong class="text-dark">{{ c.SenderName }}</strong></span>
+                </div>
+                <div class="list-meta">{{ c.SendDateStr }}</div>
+              </li>
+            </ul>
+          </div>
         </div>
       </section>
 
@@ -398,6 +624,28 @@
             <div class="form-field">
               <label class="field-label">鼓勵留言 (選填)</label>
               <input type="text" v-model="investForm.InvestNote" class="input-control" placeholder="給提案人的建議或鼓勵...">
+            </div>
+          </div>
+          <div v-if="modal==='bounty'" class="form-layout">
+            <div class="form-field">
+              <label class="field-label">任務標題 <span class="req">*</span></label>
+              <input type="text" v-model="bountyForm.TaskTitle" class="input-control" placeholder="例：幫我修一個 Vue.js 的 Bug">
+            </div>
+            <div class="form-field">
+              <label class="field-label">任務說明</label>
+              <textarea v-model="bountyForm.TaskDesc" class="input-control" rows="3" placeholder="詳細描述你需要什麼幫助..."></textarea>
+            </div>
+            <div class="form-field">
+              <label class="field-label">任務類別</label>
+              <div class="toggle-group">
+                <button v-for="cat in bountyCategories" :key="cat" type="button"
+                        class="toggle-btn" :class="{active: bountyForm.TaskCategory === cat}"
+                        @click="bountyForm.TaskCategory = cat">{{ cat }}</button>
+              </div>
+            </div>
+            <div class="form-field">
+              <label class="field-label">懸賞金額 <span class="req">*</span> <span class="text-normal">(可用餘額: {{ fmt(balance) }})</span></label>
+              <input type="number" v-model="bountyForm.BountyAmount" class="input-control" min="1" placeholder="輸入懸賞的活力幣數量">
             </div>
           </div>
 

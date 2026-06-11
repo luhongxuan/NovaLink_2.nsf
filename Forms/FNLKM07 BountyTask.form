@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='utf-8'?>
+<form name='FNLKM07 BountyTask' alias='FNLKM07' xmlns='http://www.lotus.com/dxl'
+ version='12.0' maintenanceversion='2.0' replicaid='48258E12005A8210' publicaccess='false'
+ designerversion='8.5.3' renderpassthrough='true'>
+<noteinfo noteid='5b2' unid='97DA5ED25F07877448258E13000DB5C9' sequence='1'>
+<created><datetime>20260611T102945,05+08</datetime></created>
+<modified><datetime>20260611T102945,35+08</datetime></modified>
+<revised><datetime>20260611T102945,34+08</datetime></revised>
+<lastaccessed><datetime>20260611T102945,34+08</datetime></lastaccessed>
+<addedtofile><datetime>20260611T102945,34+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=B11209013/O=XRedSchool</name></updatedby>
+<wassignedby><name>CN=B11209013/O=XRedSchool</name></wassignedby>
+<body><richtext>
+<pardef id='1'/>
+<par def='1'/><par def='1'><run><font size='12pt' name='serif'/><field type='text' kind='editable'
+ name='PosterID'/></run><compositedata type='98' prevtype='65418' nexttype='222'
+ afterparcount='5' containertype='65418' aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt' name='serif'/><field type='text' kind='editable'
+ name='PosterName'/></run><compositedata type='98' prevtype='65418' nexttype='222'
+ afterparcount='5' containertype='65418' aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt' name='serif'/><field type='text' kind='editable'
+ name='TaskTitle'/></run><compositedata type='98' prevtype='65418' nexttype='222'
+ afterparcount='5' containertype='65418' aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt' name='serif'/><field type='text' kind='editable'
+ name='TaskDesc'/></run><compositedata type='98' prevtype='65418' nexttype='222'
+ afterparcount='5' containertype='65418' aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt' name='serif'/><field type='text' kind='editable'
+ name='TaskCategory'/></run><compositedata type='98' prevtype='65418' nexttype='222'
+ afterparcount='5' containertype='65418' aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt' name='serif'/><field type='number' kind='editable'
+ name='BountyAmount'><numberformat format='general' varying='true' punctuated='false'
+ parens='false' percent='false' bytes='false'/></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='5' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt' name='serif'/><field type='text' kind='editable'
+ name='Status'/></run><compositedata type='98' prevtype='65418' nexttype='222'
+ afterparcount='5' containertype='65418' aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt' name='serif'/><field type='text' kind='editable'
+ name='AcceptorID'/></run><compositedata type='98' prevtype='65418' nexttype='222'
+ afterparcount='5' containertype='65418' aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt' name='serif'/><field type='text' kind='editable'
+ name='AcceptorName'/></run><compositedata type='98' prevtype='65418' nexttype='222'
+ afterparcount='5' containertype='65418' aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt' name='serif'/><field type='datetime' kind='editable'
+ name='CreateDate'><datetimeformat show='datetime' date='yearmonthday' time='hourminutesecond'
+ zone='never' dateformat='weekdaymonthdayyear' dayformat='twodigitday' monthformat='twodigitmonth'
+ yearformat='fourdigityear' weekdayformat='shortname' dateseparator1=' ' dateseparator2='/'
+ dateseparator3='/' timeseparator=':' preference='usersetting'/></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='5' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt' name='serif'/><field type='text' kind='editable'
+ name='CreateDateStr'/></run><compositedata type='98' prevtype='65418' nexttype='222'
+ afterparcount='5' containertype='65418' aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par></richtext></body>
+<item name='$$ScriptName' summary='false' sign='true'><text>FNLKM07</text></item></form>
+

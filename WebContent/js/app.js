@@ -23,6 +23,9 @@ createApp({
         { id:'thanks',   icon:'💌', label:'感謝卡牆' },
         { id:'proposal', icon:'💡', label:'創新提案' },
         { id:'coin',     icon:'🪙', label:'活力幣' },
+        { id:'shop',     icon:'🛒', label:'商城' },
+        { id:'bounty', icon:'🎯', label:'懸賞板' },
+        { id:'profile', icon:'👤', label:'個人頁面' },
       ],
       // 資料
       loading: false,
@@ -43,8 +46,23 @@ createApp({
       thanksForm:   { RecipientID:'', CardType:'', CardMessage:'', IsPublic:true },
       proposalForm: { ProposalTitle:'', Category:'', ProblemDesc:'', SolutionDesc:'', TargetCoins:100 },
       investForm:   { InvestAmount:'', InvestNote:'' },
+      // 商城
+      shopPurchases: [],
+      shopBuying: null,
+      shopItems: [
+        { id:'title_vip', name:'⭐ VIP 專屬稱號',   price:20, type:'virtual', desc:'在名字旁顯示閃亮的 VIP 徽章。', once:true },
+        { id:'title_pro', name:'🏆 Pro 達人稱號',   price:25, type:'virtual', desc:'展現你的專業實力，名字旁顯示 Pro 標誌。', once:true },
+        { id:'late_pass', name:'😴 遲到免責券',      price:50, type:'privilege', desc:'使用一次可免除遲到紀錄，限用一次。', once:false },
+        { id:'flex_work', name:'🏠 彈性上班券',      price:40, type:'privilege', desc:'兌換一天在家上班的機會。', once:false },
+        { id:'coffee',    name:'☕ 咖啡兌換券',      price:15, type:'privilege', desc:'至公司咖啡吧免費兌換一杯飲品。', once:false },
+      ],
+      // 懸賞板
+      bountyList: [],
+      bountyCategories: ['程式開發','文件撰寫','設計美工','翻譯校稿','資料整理','其他'],
+      bountyForm: { TaskTitle:'', TaskDesc:'', TaskCategory:'', BountyAmount:10 },
       // toast
       toastMsg: '',
+      darkMode: false,
       _clockTimer: null,
     };
   },
@@ -67,7 +85,63 @@ createApp({
       return this.moodList.find(m => c.includes(m.MoodDateStr)) || null;
     },
     modalTitle() {
-      return { mood:'填寫今日情緒', thanks:'發送感謝卡', proposal:'提出新提案', invest:'投資創新提案' }[this.modal] || '';
+      return { mood:'填寫今日情緒', thanks:'發送感謝卡', proposal:'提出新提案', invest:'投資創新提案', bounty:'發布懸賞任務' }[this.modal] || '';
+    },
+    ownedItemIds() {
+    return this.shopPurchases.map(p => p.ItemID);
+    },
+    isDarkMode() {
+      return this.darkMode;
+    },
+    userTitle() {
+      if (this.ownedItemIds.includes('title_vip')) return '⭐ VIP';
+      if (this.ownedItemIds.includes('title_pro')) return '🏆 Pro';
+      return '';
+    },
+    // 技能雷達圖：統計「收到的」感謝卡各類型數量
+    skillRadar() {
+      const cats = ['🤝 神隊友','🚒 救火英雄','💡 好點子','🌐 跨部門合作','💛 溫暖鼓勵'];
+      const labels = ['神隊友','救火英雄','好點子','跨部門合作','溫暖鼓勵'];
+      const me = this.currentUser ? this.cnName(this.currentUser) : '';
+      const counts = cats.map(cat =>
+        this.thanksList.filter(c => c.RecipientName === me && c.CardType === cat).length
+      );
+      const max = Math.max(...counts, 1);
+      return { labels, counts, max };
+    },
+    radarPoints() {
+      const { counts, max } = this.skillRadar;
+      const cx = 140, cy = 140, r = 110;
+      const n = 5;
+      return counts.map((v, i) => {
+        const angle = (Math.PI * 2 * i / n) - Math.PI / 2;
+        const ratio = v / max;
+        const x = cx + r * ratio * Math.cos(angle);
+        const y = cy + r * ratio * Math.sin(angle);
+        return `${x.toFixed(1)},${y.toFixed(1)}`;
+      }).join(' ');
+    },
+    radarLabelPositions() {
+      const cx = 140, cy = 140, r = 130;
+      const n = 5;
+      return this.skillRadar.labels.map((label, i) => {
+        const angle = (Math.PI * 2 * i / n) - Math.PI / 2;
+        return {
+          label,
+          count: this.skillRadar.counts[i],
+          x: cx + r * Math.cos(angle),
+          y: cy + r * Math.sin(angle),
+          anchor: i === 0 ? 'middle' : (i < 3 ? 'start' : 'end'),
+        };
+      });
+    },
+    profileStats() {
+      const me = this.currentUser ? this.cnName(this.currentUser) : '';
+      const sent = this.thanksList.filter(c => c.SenderName === me).length;
+      const received = this.thanksList.filter(c => c.RecipientName === me).length;
+      const proposals = this.proposalList.filter(p => p.ProposerName === me).length;
+      const moodDays = this.moodList.length;
+      return { sent, received, proposals, moodDays };
     },
   },
 
@@ -75,6 +149,8 @@ createApp({
     this._clockTimer = setInterval(() => { this.now = new Date(); }, 1000);
     this.loadCurrentUser();
     this.refreshAll();
+    this.darkMode = localStorage.getItem('nlk_dark') === '1';
+    if (this.darkMode) document.documentElement.classList.add('dark');
   },
   beforeUnmount() { clearInterval(this._clockTimer); },
 
@@ -86,10 +162,12 @@ createApp({
       if (id === 'thanks')   this.loadThanks();
       if (id === 'proposal') this.loadProposal();
       if (id === 'coin')     this.loadCoin();
+      if (id === 'shop') this.loadShopPurchases();
+      if (id === 'bounty') this.loadBounty();
     },
     async refreshAll() {
       this.loading = true; this.errorMsg = '';
-      await Promise.all([ this.loadMood(), this.loadThanks(), this.loadProposal(), this.loadCoin() ]);
+      await Promise.all([ this.loadMood(), this.loadThanks(), this.loadProposal(), this.loadCoin(), this.loadShopPurchases(), this.loadBounty() ]);
       this.loading = false;
     },
 
@@ -125,6 +203,11 @@ createApp({
         }
       } catch(e) { console.warn('無法取得使用者資訊', e); }
     },
+    toggleDark() {
+      this.darkMode = !this.darkMode;
+      document.documentElement.classList.toggle('dark', this.darkMode);
+      localStorage.setItem('nlk_dark', this.darkMode ? '1' : '0');
+    },
     docsOnly(arr) { return Array.isArray(arr) ? arr.filter(e => e && e['@unid']) : []; },
     handleErr(e, what) {
       console.error(`[NovaLink] 載入${what}失敗`, e);
@@ -139,6 +222,7 @@ createApp({
       if (name === 'mood')     this.moodForm     = { MoodScore:'', StressLevel:'3', Department:'', MoodNote:'', IsNotePublic:false };
       if (name === 'thanks')   this.thanksForm   = { RecipientID:'', CardType:'', CardMessage:'', IsPublic:true };
       if (name === 'proposal') this.proposalForm = { ProposalTitle:'', Category:'', ProblemDesc:'', SolutionDesc:'', TargetCoins:100 };
+      if (name === 'bounty') this.bountyForm = { TaskTitle:'', TaskDesc:'', TaskCategory:'', BountyAmount:10 };
     },
     openInvest(p) {
       this.investTarget = p; this.investForm = { InvestAmount:'', InvestNote:'' };
@@ -156,6 +240,7 @@ createApp({
       if (this.modal === 'thanks')   return this.submitThanks();
       if (this.modal === 'proposal') return this.submitProposal();
       if (this.modal === 'invest')   return this.submitInvest();
+      if (this.modal === 'bounty') return this.submitBounty();
     },
 
     async submitMood() {
@@ -326,6 +411,195 @@ createApp({
       await this.refreshAll();
       this.currentPage = page;
     },
+    async likeCard(card) {
+      if (!this.currentUser) { this.toast('請先操作任一功能以識別身份'); return; }
+      card._liking = true;
+      try {
+        // 讀取完整文件，檢查是否已按讚
+        const r = await axios.get(`${DOCS}/unid/${card['@unid']}`);
+        const doc = r.data;
+        const likedBy = doc.LikedBy || '';
+        const likers = likedBy ? likedBy.split(',') : [];
+        const me = this.cnName(this.currentUser);
+
+        if (likers.includes(me)) {
+          this.toast('你已經按過讚了！');
+          card._liking = false;
+          return;
+        }
+
+        // 更新按讚數和按讚者
+        likers.push(me);
+        const newCount = (Number(doc.LikeCount) || 0) + 1;
+        await axios.patch(`${DOCS}/unid/${card['@unid']}`, {
+          LikeCount: newCount,
+          LikedBy: likers.join(',')
+        });
+
+        // 發幣給發卡人和收卡人各 +1
+        if (doc.SenderID)    await this.issueCoin(doc.SenderID, 1, 'CardLike', card['@unid'], '感謝卡被按讚');
+        if (doc.RecipientID) await this.issueCoin(doc.RecipientID, 1, 'CardLike', card['@unid'], '感謝卡被按讚');
+
+        // 更新前端顯示
+        card.LikeCount = newCount;
+        this.toast(`已按讚！${this.cnName(doc.SenderName || '')} 和 ${this.cnName(doc.RecipientName || '')} 各獲得 +1 活力幣`);
+      } catch (e) {
+        console.warn('按讚失敗', e);
+        this.toast('按讚失敗，請稍後再試');
+      }
+      card._liking = false;
+    },
+    async loadShopPurchases() {
+      try {
+        const r = await axios.get(`${COLL}/VNLKM60?count=100`);
+        this.shopPurchases = this.docsOnly(r.data);
+      } catch (e) { console.warn('載入商城購買紀錄失敗', e); }
+    },
+
+    canBuyItem(item) {
+      if (item.once && this.ownedItemIds.includes(item.id)) return false;
+      if (this.balance < item.price) return false;
+      return true;
+    },
+
+    buyItemLabel(item) {
+      if (item.once && this.ownedItemIds.includes(item.id)) return '已擁有';
+      if (this.balance < item.price) return '餘額不足';
+      return `${item.price} 幣購買`;
+    },
+
+    async buyItem(item) {
+      if (!this.currentUser) { this.toast('請先操作任一功能以識別身份'); return; }
+      if (!this.canBuyItem(item)) return;
+      if (!confirm(`確定要花費 ${item.price} 活力幣購買「${item.name}」嗎？`)) return;
+
+      try {
+        const nd = new Date();
+        const p = n => String(n).padStart(2,'0');
+        const dateStr = `${nd.getFullYear()}/${p(nd.getMonth()+1)}/${p(nd.getDate())} ${p(nd.getHours())}:${p(nd.getMinutes())}:${p(nd.getSeconds())}`;
+        const name = this.cnName(this.currentUser);
+
+        const body = {
+          BuyerID:      this.currentUser,
+          BuyerName:    name,
+          ItemID:       item.id,
+          ItemName:     item.name,
+          ItemPrice:    item.price,
+          ItemType:     item.type,
+          PurchaseDate: dateStr,
+        };
+        await axios.post(`${DOCS}?form=FNLKM06`, body);
+        await this.issueCoin(this.currentUser, -item.price, 'ShopPurchase', '', `商城購買：${item.name}`);
+        await this.refreshAll();
+        this.toast(`成功購買「${item.name}」！`);
+      } catch (e) {
+        console.warn('購買失敗', e);
+        this.toast('購買失敗，請稍後再試');
+      }
+    },
+    async loadBounty() {
+      try {
+        const r = await axios.get(`${COLL}/VNLKM70?count=100`);
+        this.bountyList = this.docsOnly(r.data);
+      } catch (e) { console.warn('載入懸賞板失敗', e); }
+    },
+
+    async submitBounty() {
+      const f = this.bountyForm;
+      if (!f.TaskTitle.trim()) { this.modalError = '請輸入任務標題。'; return; }
+      const amt = Number(f.BountyAmount);
+      if (!amt || amt < 1) { this.modalError = '懸賞金額至少 1 幣。'; return; }
+      if (amt > this.balance) { this.modalError = `活力幣不足！目前餘額 ${this.balance}，需要 ${amt} 幣。`; return; }
+      if (!this.currentUser) { this.modalError = '請先操作任一功能以識別身份。'; return; }
+      this.submitting = true; this.modalError = '';
+      try {
+        const nd = new Date();
+        const p = n => String(n).padStart(2,'0');
+        const dateStr = `${nd.getFullYear()}/${p(nd.getMonth()+1)}/${p(nd.getDate())} ${p(nd.getHours())}:${p(nd.getMinutes())}:${p(nd.getSeconds())}`;
+        const name = this.cnName(this.currentUser);
+        const body = {
+          PosterID:     this.currentUser,
+          PosterName:   name,
+          TaskTitle:    f.TaskTitle.trim(),
+          TaskDesc:     f.TaskDesc,
+          TaskCategory: f.TaskCategory || '其他',
+          BountyAmount: amt,
+          Status:       'Open',
+          AcceptorID:   '',
+          AcceptorName: '',
+          CreateDateStr: dateStr.substring(0,10),
+        };
+        const unid = await this.createDoc('FNLKM07', body);
+        await this.issueCoin(this.currentUser, -amt, 'BountyEscrow', unid, `懸賞託管：${f.TaskTitle.trim()}`);
+        await this.afterCreate('bounty', `懸賞已發布！${amt} 活力幣已託管。`);
+      } catch (e) { this.failSubmit(e); }
+      this.submitting = false;
+    },
+
+    bountyStatusLabel(s) {
+      return ({Open:'徵求中', Accepted:'進行中', Completed:'已完成', Cancelled:'已取消'})[s] || s;
+    },
+
+    isMyBounty(b) {
+      return this.currentUser && b.PosterID && b.PosterID === this.currentUser;
+    },
+
+    async acceptBounty(b) {
+      if (!this.currentUser) { this.toast('請先操作任一功能以識別身份'); return; }
+      if (this.isMyBounty(b)) { this.toast('不能接自己發的懸賞！'); return; }
+      if (!confirm(`確定要接下「${b.TaskTitle}」這個任務嗎？`)) return;
+      try {
+        const name = this.cnName(this.currentUser);
+        await axios.patch(`${DOCS}/unid/${b['@unid']}`, {
+          Status: 'Accepted',
+          AcceptorID: this.currentUser,
+          AcceptorName: name,
+        });
+        this.toast('已接單！完成後等待發包人確認。');
+        await this.loadBounty();
+      } catch (e) {
+        console.warn('接單失敗', e);
+        this.toast('接單失敗，請稍後再試');
+      }
+    },
+
+    async completeBounty(b) {
+      if (!confirm(`確認「${this.cnName(b.AcceptorName || b.AcceptorID)}」已完成任務？${b.BountyAmount} 幣將轉給對方。`)) return;
+      try {
+        await axios.patch(`${DOCS}/unid/${b['@unid']}`, { Status: 'Completed' });
+        await this.issueCoin(b.AcceptorID, Number(b.BountyAmount), 'BountyReward', b['@unid'], `完成懸賞：${b.TaskTitle}`);
+        this.toast(`任務完成！${b.BountyAmount} 幣已轉給 ${this.cnName(b.AcceptorName || b.AcceptorID)}。`);
+        await this.refreshAll();
+      } catch (e) {
+        console.warn('確認完成失敗', e);
+        this.toast('操作失敗，請稍後再試');
+      }
+    },
+
+    async cancelBounty(b) {
+      if (!confirm(`確定取消懸賞「${b.TaskTitle}」嗎？${b.BountyAmount} 幣將退還給你。`)) return;
+      try {
+        await axios.patch(`${DOCS}/unid/${b['@unid']}`, { Status: 'Cancelled' });
+        await this.issueCoin(this.currentUser, Number(b.BountyAmount), 'BountyRefund', b['@unid'], `懸賞取消退款：${b.TaskTitle}`);
+        this.toast(`懸賞已取消，${b.BountyAmount} 幣已退還。`);
+        await this.refreshAll();
+      } catch (e) {
+        console.warn('取消失敗', e);
+        this.toast('操作失敗，請稍後再試');
+      }
+    },
+    radarGridPoints(level) {
+      const cx = 140, cy = 140, r = 110;
+      const n = 5;
+      const pts = [];
+      for (let i = 0; i < n; i++) {
+        const angle = (Math.PI * 2 * i / n) - Math.PI / 2;
+        const x = cx + r * level * Math.cos(angle);
+        const y = cy + r * level * Math.sin(angle);
+        pts.push(`${x.toFixed(1)},${y.toFixed(1)}`);
+      }
+      return pts.join(' ');
+    },
     failSubmit(e) {
       console.error('[NovaLink] 送出失敗', e);
       const code = e?.response?.status;
@@ -359,6 +633,8 @@ createApp({
         ThanksCard_Send:'送出感謝卡', ThanksCard_Recv:'收到感謝卡', Featured:'精選感謝卡',
         Proposal_Submit:'提出提案', Proposal_Funded:'提案達標', Proposal_Adopted:'提案採用',
         ProposalInvest:'投資提案',
+        ShopPurchase:'商城購買',
+        BountyEscrow:'懸賞託管', BountyReward:'懸賞獎勵', BountyRefund:'懸賞退款',
       })[s] || s || '—';
     },
     fmtDateTime(v) {

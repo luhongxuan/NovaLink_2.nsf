@@ -347,3 +347,139 @@ textarea.input-control { resize: vertical; min-height: 80px; }
   .action-buttons .btn { flex: 1; }
   .link-text { text-align: center; }
 }
+/* ---------- 按讚按鈕 ---------- */
+.btn-like {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 14px; border-radius: 100px;
+  background-color: var(--bg-app); border: 1px solid var(--border-base);
+  color: var(--text-secondary); font-family: inherit; font-size: 13px; font-weight: 500;
+  cursor: pointer; transition: all 0.2s;
+}
+.btn-like:hover:not(:disabled) {
+  border-color: var(--primary); color: var(--primary);
+  background-color: var(--primary-light);
+  transform: scale(1.05);
+}
+.btn-like:disabled { opacity: 0.6; cursor: not-allowed; }
+.btn-like.liked {
+  background-color: var(--primary-light); border-color: var(--primary); color: var(--primary);
+}
+/* ---------- 商城 ---------- */
+.shop-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+.shop-card { display: flex; flex-direction: column; transition: border-color 0.2s, transform 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
+.shop-card:hover { border-color: var(--border-dark); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+.shop-card.shop-owned { opacity: 0.6; }
+.shop-card .card-body { padding: 24px; flex: 1; text-align: center; }
+.shop-icon { font-size: 40px; margin-bottom: 12px; }
+.shop-name { font-size: 16px; font-weight: 600; color: var(--text-main); margin-bottom: 8px; }
+.shop-desc { font-size: 13px; color: var(--text-secondary); margin-bottom: 16px; line-height: 1.6; }
+.shop-meta { display: flex; justify-content: center; align-items: center; gap: 12px; }
+.shop-price { font-size: 18px; font-weight: 700; color: var(--primary); font-family: var(--font-mono); }
+.shop-card .card-footer { text-align: center; }
+.shop-card .card-footer .btn { width: 100%; }
+
+/* 使用者稱號徽章 */
+.user-title-badge { font-size: 11px; padding: 2px 8px; border-radius: 100px; background-color: var(--primary-light); color: var(--primary); font-weight: 600; margin-left: 6px; }
+
+/* ---------- 深色模式 ---------- */
+html.dark {
+  --bg-app: #1a1a1a;
+  --bg-surface: #242424;
+  --bg-hover: #2e2e2e;
+  --primary: #E07A56;
+  --primary-hover: #C96842;
+  --primary-light: #3D2A22;
+  --text-main: #E8E6E3;
+  --text-secondary: #9B9895;
+  --text-tertiary: #6B6864;
+  --border-light: #2e2e2e;
+  --border-base: #383838;
+  --border-dark: #4a4a4a;
+  --status-success: #6ABF82;
+  --status-warning: #D4A84B;
+  --status-danger: #D46B6B;
+}
+html.dark body { background-color: var(--bg-app); color: var(--text-main); }
+html.dark .app-header { background-color: var(--bg-surface); border-bottom-color: var(--border-base); }
+html.dark .brand-logo { background-color: var(--primary); }
+html.dark .input-control { background-color: var(--bg-hover); border-color: var(--border-dark); color: var(--text-main); }
+html.dark .input-control:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-light); }
+html.dark .modal-dialog { background-color: var(--bg-surface); }
+html.dark .modal-footer { background-color: var(--bg-app); }
+html.dark .data-table th { background-color: var(--bg-hover); }
+html.dark .emoji-btn { background-color: var(--bg-hover); border-color: var(--border-base); }
+html.dark .emoji-btn.active { background-color: var(--primary-light); border-color: var(--primary); }
+html.dark .toggle-btn { background-color: var(--bg-surface); border-color: var(--border-base); color: var(--text-secondary); }
+html.dark .toggle-btn.active { background-color: var(--primary-light); border-color: var(--primary); color: var(--primary); }
+html.dark .slider-input { background: linear-gradient(90deg, #4a4a4a 0%, var(--primary) 100%); }
+html.dark .action-row { background-color: var(--bg-surface); border-color: var(--border-base); }
+html.dark .action-row:hover { border-color: var(--primary); }
+html.dark .action-icon { background-color: var(--bg-app); border-color: var(--border-base); }
+html.dark .quote-box { background-color: var(--bg-hover); border-left-color: var(--border-dark); }
+html.dark .flow-node { background-color: var(--bg-hover); border-color: var(--border-base); }
+html.dark .flow-node.highlight { background-color: var(--primary-light); border-color: #5C3B2E; color: var(--primary); }
+html.dark .info-panel { background-color: var(--bg-hover); }
+html.dark .alert-banner { background-color: var(--bg-surface); }
+
+/* ---------- 懸賞板 ---------- */
+.bounty-list { display: flex; flex-direction: column; gap: 12px; }
+.bounty-card { transition: border-color 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
+.bounty-card:hover { border-color: var(--border-dark); }
+.bounty-card.bounty-Completed { opacity: 0.65; }
+.bounty-card.bounty-Cancelled { opacity: 0.45; }
+.bounty-amount { font-size: 22px; font-weight: 700; color: var(--primary); font-family: var(--font-mono); margin-bottom: 6px; }
+.bounty-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+
+.badge-bounty-Open { background-color: #EAF3EC; color: var(--status-success); }
+.badge-bounty-Accepted { background-color: #FDF4E1; color: var(--status-warning); }
+.badge-bounty-Completed { background-color: #F0F4F8; color: #334E68; }
+.badge-bounty-Cancelled { background-color: var(--bg-hover); color: var(--text-tertiary); }
+
+/* 深色模式補充 */
+html.dark .bounty-amount { color: var(--primary); }
+html.dark .badge-bounty-Open { background-color: #1E3326; color: var(--status-success); }
+html.dark .badge-bounty-Accepted { background-color: #3D2E16; color: var(--status-warning); }
+html.dark .badge-bounty-Completed { background-color: #1E2530; color: #7BA3CC; }
+
+/* ---------- 個人頁面 ---------- */
+.profile-header { display: flex; align-items: center; gap: 24px; padding: 32px; }
+.profile-avatar {
+  width: 72px; height: 72px; border-radius: 50%; flex: none;
+  background-color: var(--primary); color: #FFF;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px; font-weight: 700;
+  box-shadow: 0 4px 12px rgba(209, 103, 67, 0.25);
+}
+.profile-info { display: flex; flex-direction: column; gap: 6px; }
+.profile-name { font-size: 22px; font-weight: 600; color: var(--text-main); display: flex; align-items: center; gap: 8px; }
+.profile-id { margin-top: 2px; }
+.profile-balance { font-size: 14px; color: var(--text-secondary); margin-top: 4px; }
+
+/* 雷達圖 */
+.radar-container { min-height: 320px; }
+.radar-svg { flex: none; }
+.radar-legend { flex: 1; min-width: 240px; display: flex; flex-direction: column; gap: 14px; }
+.radar-legend-item { display: flex; flex-direction: column; gap: 6px; }
+.legend-bar-wrap { display: flex; justify-content: space-between; align-items: center; }
+.legend-label { font-size: 13px; font-weight: 500; color: var(--text-secondary); }
+.legend-count { font-size: 14px; font-weight: 600; color: var(--text-main); }
+
+/* 深色模式補充 */
+html.dark .profile-avatar { box-shadow: 0 4px 12px rgba(224, 122, 86, 0.3); }
+html.dark .radar-svg polygon { stroke: var(--border-dark); }
+html.dark .radar-svg line { stroke: var(--border-base); }
+
+@media (max-width: 600px) {
+  .profile-header { flex-direction: column; text-align: center; }
+  .radar-container { flex-direction: column; }
+}
+
+/* 深色模式切換按鈕 */
+.btn-dark-toggle {
+  width: 36px; height: 36px; border-radius: 50%;
+  background-color: var(--bg-hover); border: 1px solid var(--border-base);
+  font-size: 16px; cursor: pointer; transition: all 0.2s;
+  display: flex; align-items: center; justify-content: center;
+  margin-right: 12px;
+}
+.btn-dark-toggle:hover { border-color: var(--border-dark); transform: scale(1.1); }

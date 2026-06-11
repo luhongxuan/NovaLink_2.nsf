@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='utf-8'?>
+<view name='VNLKM60 ShopPurchasesByBuyer ' alias='VNLKM60' xmlns='http://www.lotus.com/dxl'
+ version='12.0' maintenanceversion='2.0' replicaid='48258E12005A8210' showinmenu='false'
+ noreplace='true' publicaccess='false' designerversion='8.5.3' unreadmarks='none'
+ onopengoto='lastopened' onrefresh='displayindicator' headers='beveled' opencollapsed='false'
+ showresponsehierarchy='true' showmargin='true' shrinkrows='false' extendlastcolumn='false'
+ showhierarchies='false' unreadcolor='black' rowlinecount='1' headerlinecount='1'
+ rowspacing='1' bgcolor='white' totalscolor='black' headerbgcolor='white'
+ boldunreadrows='false' evaluateactions='false' allownewdocuments='false'
+ allowcustomizations='true' hidemarginborder='false' marginwidth='0px' marginbgcolor='white'
+ uniquekeys='false'>
+<noteinfo noteid='5a6' unid='2E23783158051BA148258E13000C3891' sequence='9'>
+<created><datetime>20260611T101329,13+08</datetime></created>
+<modified><datetime>20260611T102131,25+08</datetime></modified>
+<revised><datetime>20260611T102131,24+08</datetime></revised>
+<lastaccessed><datetime>20260611T102131,24+08</datetime></lastaccessed>
+<addedtofile><datetime>20260611T101329,14+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=B11209013/O=XRedSchool</name></updatedby>
+<wassignedby><name>CN=B11209013/O=XRedSchool</name></wassignedby><code event='selection'><formula
+>SELECT @All</formula></code>
+<column sort='ascending' hidedetailrows='false' itemname='BuyerID' width='25'
+ resizable='true' separatemultiplevalues='true' sortnoaccent='false' sortnocase='true'
+ showaslinks='false' categorized='true' twisties='true'><columnheader title='買家ID'><font
+ size='9pt' style='bold'/></columnheader></column>
+<column hidedetailrows='false' itemname='ItemID' width='15' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='false' showaslinks='false'><columnheader
+ title='商品ID'><font size='9pt' style='bold'/></columnheader></column>
+<column hidedetailrows='false' itemname='ItemName' width='20' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='false' showaslinks='false'><columnheader
+ title='商品名稱'><font size='9pt' style='bold'/></columnheader></column>
+<column hidedetailrows='false' itemname='ItemPrice' width='10' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='false' showaslinks='false'><columnheader
+ title='價格'><font size='9pt' style='bold'/></columnheader></column>
+<column hidedetailrows='false' itemname='ItemType' width='12' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='false' showaslinks='false'><columnheader
+ title='類型'><font size='9pt' style='bold'/></columnheader></column>
+<item name='$SelQuery' sign='true'>
+<rawitemdata type='f'>
+gQYAAAAAgv9HACAAAAAXAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAU0VM
+RUNUIEZvcm0gPSAiRk5MS00wNiIA
+</rawitemdata></item></view>
+

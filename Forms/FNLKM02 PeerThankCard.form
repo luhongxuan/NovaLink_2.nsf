@@ -170,6 +170,19 @@ Yg4BAIQAAAAAAAEAAAA=
  type='98' prevtype='65418' nexttype='222' afterparcount='6' containertype='65418'
  aftercontainercount='1' afterbegincount='3'>
 Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt' name='serif'/><field type='number' kind='editable'
+ name='LikeCount'><numberformat format='general' varying='true' punctuated='false'
+ parens='false' percent='false' bytes='false'/><code event='defaultvalue'><formula
+>@If(@ThisValue = ""; 0; @ThisValue)</formula></code></field></run><compositedata
+ type='98' prevtype='65418' nexttype='222' afterparcount='5' containertype='65418'
+ aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
+</compositedata></par>
+<par def='1'><run><font size='12pt' name='serif'/><field type='text' kind='editable'
+ name='LikedBy'/></run><compositedata type='98' prevtype='65418' nexttype='222'
+ afterparcount='5' containertype='65418' aftercontainercount='1' afterbegincount='3'>
+Yg4BAIQAAAAAAAAAAAA=
 </compositedata></par></richtext></body>
 <item name='$$ScriptName' summary='false' sign='true'><text>FNLKM02</text></item></form>
 

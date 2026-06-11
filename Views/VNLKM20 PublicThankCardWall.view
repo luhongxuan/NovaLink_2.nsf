@@ -9,11 +9,11 @@
  headerbgcolor='white' boldunreadrows='false' evaluateactions='false' allownewdocuments='false'
  allowcustomizations='false' hidemarginborder='false' marginwidth='0px' marginbgcolor='white'
  uniquekeys='false'>
-<noteinfo noteid='22e' unid='05923A53BA4E898148258E0C0044A246' sequence='18'>
+<noteinfo noteid='22e' unid='05923A53BA4E898148258E0C0044A246' sequence='27'>
 <created><datetime>20260604T202939,90+08</datetime></created>
-<modified><datetime>20260611T002836,51+08</datetime></modified>
-<revised><datetime>20260609T135133,45+08</datetime></revised>
-<lastaccessed><datetime>20260611T002839,92+08</datetime></lastaccessed>
+<modified><datetime>20260611T102116,10+08</datetime></modified>
+<revised><datetime>20260611T102116,09+08</datetime></revised>
+<lastaccessed><datetime>20260611T102116,09+08</datetime></lastaccessed>
 <addedtofile><datetime>20260611T002836,50+08</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=B11209013/O=XRedSchool</name></updatedby>
 <wassignedby><name>CN=B11209013/O=XRedSchool</name></wassignedby><code event='selection'><formula
@@ -36,5 +36,8 @@
  title='收件者'><font size='9pt' style='bold'/></columnheader></column>
 <column hidedetailrows='false' itemname='CardType' width='15' resizable='true'
  separatemultiplevalues='false' sortnoaccent='false' sortnocase='true' showaslinks='false'><columnheader
- title='類型'><font size='9pt' style='bold'/></columnheader></column></view>
+ title='類型'><font size='9pt' style='bold'/></columnheader></column>
+<column hidedetailrows='false' itemname='LikeCount' width='8' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='false' showaslinks='false'><columnheader
+ title='按讚數'><font size='9pt' style='bold'/></columnheader></column></view>
 

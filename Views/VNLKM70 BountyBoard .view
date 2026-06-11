@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='utf-8'?>
+<view name='VNLKM70 BountyBoard ' alias=' VNLKM70' xmlns='http://www.lotus.com/dxl'
+ version='12.0' maintenanceversion='2.0' replicaid='48258E12005A8210' showinmenu='false'
+ noreplace='true' publicaccess='false' designerversion='8.5.3' unreadmarks='none'
+ onopengoto='lastopened' onrefresh='displayindicator' headers='beveled' opencollapsed='false'
+ showresponsehierarchy='true' showmargin='true' shrinkrows='false' extendlastcolumn='false'
+ showhierarchies='false' unreadcolor='black' rowlinecount='1' headerlinecount='1'
+ rowspacing='1' bgcolor='white' totalscolor='black' headerbgcolor='white'
+ boldunreadrows='false' evaluateactions='false' allownewdocuments='false'
+ allowcustomizations='true' hidemarginborder='false' marginwidth='0px' marginbgcolor='white'
+ uniquekeys='false'>
+<noteinfo noteid='5b6' unid='64560C64B6EC25B548258E13000DCBFC' sequence='3'>
+<created><datetime>20260611T103041,88+08</datetime></created>
+<modified><datetime>20260611T103055,35+08</datetime></modified>
+<revised><datetime>20260611T103055,34+08</datetime></revised>
+<lastaccessed><datetime>20260611T103055,34+08</datetime></lastaccessed>
+<addedtofile><datetime>20260611T103041,92+08</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=B11209013/O=XRedSchool</name></updatedby>
+<wassignedby><name>CN=B11209013/O=XRedSchool</name></wassignedby><code event='selection'><formula
+>SELECT @All</formula></code>
+<column sort='descending' hidedetailrows='false' itemname='CreateDateStr' width='15'
+ resizable='true' separatemultiplevalues='false' sortnoaccent='false' sortnocase='true'
+ showaslinks='false'><columnheader title='發布日期'><font size='9pt' style='bold'/></columnheader></column>
+<column hidedetailrows='false' itemname='Status' width='10' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='false' showaslinks='false'><columnheader
+ title='狀態'><font size='9pt' style='bold'/></columnheader></column>
+<column hidedetailrows='false' itemname='TaskTitle' width='25' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='false' showaslinks='false'><columnheader
+ title='任務標題'><font size='9pt' style='bold'/></columnheader></column>
+<column hidedetailrows='false' itemname='PosterName' width='12' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='false' showaslinks='false'><columnheader
+ title='發包人'><font size='9pt' style='bold'/></columnheader></column>
+<column hidedetailrows='false' itemname='BountyAmount' width='10' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='false' showaslinks='false'><columnheader
+ title='懸賞金額'><font size='9pt' style='bold'/></columnheader></column>
+<column hidedetailrows='false' itemname='AcceptorName' width='12' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='false' showaslinks='false'><columnheader
+ title='接單者'><font size='9pt' style='bold'/></columnheader></column>
+<column hidedetailrows='false' itemname='TaskCategory' width='12' resizable='true'
+ separatemultiplevalues='false' sortnoaccent='false' sortnocase='false' showaslinks='false'><columnheader
+ title='類別'><font size='9pt' style='bold'/></columnheader></column>
+<item name='$SelQuery' sign='true'>
+<rawitemdata type='f'>
+gQYAAAAAgv9HACAAAAAXAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAU0VM
+RUNUIEZvcm0gPSAiRk5MS00wNyIA
+</rawitemdata></item></view>
+
