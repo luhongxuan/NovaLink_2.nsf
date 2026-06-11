@@ -173,7 +173,7 @@ createApp({
 
     /* ---------- 讀取 View ---------- */
     async loadMood() {
-      try { const r = await axios.get(`${COLL}/VNLKM10?count=100`); this.moodList = this.docsOnly(r.data); }
+      try { const r = await axios.get(`${COLL}/VNLKM10?count=100`); this.moodList = this.docsOnly(r.data).filter(m => m.MoodScore !== '99'); }
       catch (e) { this.handleErr(e,'情緒'); }
     },
     async loadThanks() {
@@ -192,7 +192,7 @@ createApp({
       try {
         const resp = await axios.post(
           `${DOCS}?form=FNLKM01&computewithform=true`,
-          { MoodScore: '3', StressLevel: '3' }
+          { MoodScore: '99', StressLevel: '3' }
         );
         const loc = resp.headers.location || resp.headers.Location || '';
         const m = loc.match(/unid\/([0-9A-Fa-f]{32})/i);
