@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <view name='VNLKM60 ShopPurchasesByBuyer ' alias='VNLKM60' xmlns='http://www.lotus.com/dxl'
- version='12.0' maintenanceversion='2.0' replicaid='48258E12005A8210' showinmenu='false'
+ version='12.0' maintenanceversion='2.0' replicaid='48258E13001B8BBD' showinmenu='false'
  noreplace='true' publicaccess='false' designerversion='8.5.3' unreadmarks='none'
  onopengoto='lastopened' onrefresh='displayindicator' headers='beveled' opencollapsed='false'
  showresponsehierarchy='true' showmargin='true' shrinkrows='false' extendlastcolumn='false'
@@ -9,12 +9,12 @@
  boldunreadrows='false' evaluateactions='false' allownewdocuments='false'
  allowcustomizations='true' hidemarginborder='false' marginwidth='0px' marginbgcolor='white'
  uniquekeys='false'>
-<noteinfo noteid='5a6' unid='2E23783158051BA148258E13000C3891' sequence='9'>
+<noteinfo noteid='322' unid='2E23783158051BA148258E13000C3891' sequence='12'>
 <created><datetime>20260611T101329,13+08</datetime></created>
-<modified><datetime>20260611T102131,25+08</datetime></modified>
-<revised><datetime>20260611T102131,24+08</datetime></revised>
-<lastaccessed><datetime>20260611T102131,24+08</datetime></lastaccessed>
-<addedtofile><datetime>20260611T101329,14+08</datetime></addedtofile></noteinfo>
+<modified><datetime>20260611T130932,82+08</datetime></modified>
+<revised><datetime>20260611T130932,81+08</datetime></revised>
+<lastaccessed><datetime>20260611T130953,66+08</datetime></lastaccessed>
+<addedtofile><datetime>20260611T130055,72+08</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=B11209013/O=XRedSchool</name></updatedby>
 <wassignedby><name>CN=B11209013/O=XRedSchool</name></wassignedby><code event='selection'><formula
 >SELECT @All</formula></code>

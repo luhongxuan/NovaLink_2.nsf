@@ -3,7 +3,7 @@
    --------------------------------------------------------------------
    如果你的資料庫路徑不同，只要改下面這一行 DB_PATH 即可。
    ===================================================================== */
-const DB_PATH   = '/student/B11209013/NovaLink_1.nsf';
+const DB_PATH   = '/student/B11209013/NovaLink_3.nsf';
 const API_ROOT  = DB_PATH + '/api/data';
 const COLL      = API_ROOT + '/collections/name';   // 讀 View
 const DOCS      = API_ROOT + '/documents';          // 建立 / 讀取文件
@@ -452,7 +452,12 @@ createApp({
     async loadShopPurchases() {
       try {
         const r = await axios.get(`${COLL}/VNLKM60?count=100`);
-        this.shopPurchases = this.docsOnly(r.data);
+        const all = this.docsOnly(r.data).filter(p => p.ItemName);
+        if (this.currentUser) {
+          this.shopPurchases = all.filter(p => p.BuyerID === this.currentUser);
+        } else {
+          this.shopPurchases = all;
+        }
       } catch (e) { console.warn('載入商城購買紀錄失敗', e); }
     },
 
@@ -500,7 +505,8 @@ createApp({
     async loadBounty() {
       try {
         const r = await axios.get(`${COLL}/VNLKM70?count=100`);
-        this.bountyList = this.docsOnly(r.data);
+        
+        this.bountyList = this.docsOnly(r.data).filter(p => p.TaskTitle);
       } catch (e) { console.warn('載入懸賞板失敗', e); }
     },
 

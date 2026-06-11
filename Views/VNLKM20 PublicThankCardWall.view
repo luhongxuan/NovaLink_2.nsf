@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <view name='VNLKM20 PublicThankCardWall' alias='VNLKM20' xmlns='http://www.lotus.com/dxl'
- version='12.0' maintenanceversion='2.0' replicaid='48258E12005A8210' showinmenu='false'
+ version='12.0' maintenanceversion='2.0' replicaid='48258E13001B8BBD' showinmenu='false'
  noreplace='true' publicaccess='false' designerversion='8.5.3' unreadmarks='none'
  onopengoto='lastopened' onrefresh='displayindicator' headers='beveled' opencollapsed='false'
  showresponsehierarchy='false' showmargin='true' shrinkrows='false' extendlastcolumn='false'
@@ -9,12 +9,12 @@
  headerbgcolor='white' boldunreadrows='false' evaluateactions='false' allownewdocuments='false'
  allowcustomizations='false' hidemarginborder='false' marginwidth='0px' marginbgcolor='white'
  uniquekeys='false'>
-<noteinfo noteid='22e' unid='05923A53BA4E898148258E0C0044A246' sequence='27'>
+<noteinfo noteid='1fa' unid='05923A53BA4E898148258E0C0044A246' sequence='30'>
 <created><datetime>20260604T202939,90+08</datetime></created>
-<modified><datetime>20260611T102116,10+08</datetime></modified>
-<revised><datetime>20260611T102116,09+08</datetime></revised>
-<lastaccessed><datetime>20260611T102116,09+08</datetime></lastaccessed>
-<addedtofile><datetime>20260611T002836,50+08</datetime></addedtofile></noteinfo>
+<modified><datetime>20260611T130920,38+08</datetime></modified>
+<revised><datetime>20260611T130920,37+08</datetime></revised>
+<lastaccessed><datetime>20260611T130920,37+08</datetime></lastaccessed>
+<addedtofile><datetime>20260611T130053,66+08</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=B11209013/O=XRedSchool</name></updatedby>
 <wassignedby><name>CN=B11209013/O=XRedSchool</name></wassignedby><code event='selection'><formula
 >SELECT Form = "FNLKM02" &amp; IsPublic = "1"</formula></code>

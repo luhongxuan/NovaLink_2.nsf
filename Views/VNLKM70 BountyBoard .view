@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
-<view name='VNLKM70 BountyBoard ' alias=' VNLKM70' xmlns='http://www.lotus.com/dxl'
- version='12.0' maintenanceversion='2.0' replicaid='48258E12005A8210' showinmenu='false'
+<view name='VNLKM70 BountyBoard ' alias='VNLKM70' xmlns='http://www.lotus.com/dxl'
+ version='12.0' maintenanceversion='2.0' replicaid='48258E13001B8BBD' showinmenu='false'
  noreplace='true' publicaccess='false' designerversion='8.5.3' unreadmarks='none'
  onopengoto='lastopened' onrefresh='displayindicator' headers='beveled' opencollapsed='false'
  showresponsehierarchy='true' showmargin='true' shrinkrows='false' extendlastcolumn='false'
@@ -9,18 +9,19 @@
  boldunreadrows='false' evaluateactions='false' allownewdocuments='false'
  allowcustomizations='true' hidemarginborder='false' marginwidth='0px' marginbgcolor='white'
  uniquekeys='false'>
-<noteinfo noteid='5b6' unid='64560C64B6EC25B548258E13000DCBFC' sequence='3'>
+<noteinfo noteid='32a' unid='64560C64B6EC25B548258E13000DCBFC' sequence='8'>
 <created><datetime>20260611T103041,88+08</datetime></created>
-<modified><datetime>20260611T103055,35+08</datetime></modified>
-<revised><datetime>20260611T103055,34+08</datetime></revised>
-<lastaccessed><datetime>20260611T103055,34+08</datetime></lastaccessed>
-<addedtofile><datetime>20260611T103041,92+08</datetime></addedtofile></noteinfo>
+<modified><datetime>20260611T130937,16+08</datetime></modified>
+<revised><datetime>20260611T130937,15+08</datetime></revised>
+<lastaccessed><datetime>20260611T130953,63+08</datetime></lastaccessed>
+<addedtofile><datetime>20260611T130055,75+08</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=B11209013/O=XRedSchool</name></updatedby>
 <wassignedby><name>CN=B11209013/O=XRedSchool</name></wassignedby><code event='selection'><formula
 >SELECT @All</formula></code>
-<column sort='descending' hidedetailrows='false' itemname='CreateDateStr' width='15'
- resizable='true' separatemultiplevalues='false' sortnoaccent='false' sortnocase='true'
- showaslinks='false'><columnheader title='發布日期'><font size='9pt' style='bold'/></columnheader></column>
+<column sort='descending' hidedetailrows='false' itemname='CreateDateStr'
+ width='15' resizable='true' separatemultiplevalues='false' sortnoaccent='false'
+ sortnocase='true' showaslinks='false'><columnheader title='發布日期'><font size='9pt'
+ style='bold'/></columnheader></column>
 <column hidedetailrows='false' itemname='Status' width='10' resizable='true'
  separatemultiplevalues='false' sortnoaccent='false' sortnocase='false' showaslinks='false'><columnheader
  title='狀態'><font size='9pt' style='bold'/></columnheader></column>
