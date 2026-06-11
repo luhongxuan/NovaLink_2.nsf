@@ -547,7 +547,17 @@ createApp({
     },
 
     isMyBounty(b) {
-      return this.currentUser && b.PosterID && b.PosterID === this.currentUser;
+      if (!this.currentUser) return false;
+      
+      // 取得自己過濾後的中文名字
+      const myName = this.cnName(this.currentUser);
+      
+      // 1. 如果 View 有回傳 PosterID 就精準比對
+      // 2. 如果沒有，就退而求其次比對 PosterName
+      // 3. 兼容舊版可能叫做 IssuerID 的情況
+      return (b.PosterID === this.currentUser) || 
+             (b.PosterName === myName) || 
+             (b.IssuerID === this.currentUser);
     },
 
     async acceptBounty(b) {
@@ -571,10 +581,26 @@ createApp({
 
     async completeBounty(b) {
       if (!confirm(`確認「${this.cnName(b.AcceptorName || b.AcceptorID)}」已完成任務？${b.BountyAmount} 幣將轉給對方。`)) return;
+      
       try {
+        // 1. 先去後端抓取這份文件的「完整內容」，確保絕對能拿到隱藏的 AcceptorID
+        const r = await axios.get(`${DOCS}/unid/${b['@unid']}`);
+        const fullDoc = r.data;
+        const realAcceptorID = fullDoc.AcceptorID;
+
+        // 防呆檢查
+        if (!realAcceptorID) {
+          this.toast('系統找不到接案者的真實 ID，發放失敗！');
+          return;
+        }
+
+        // 2. 更新任務狀態為 Completed
         await axios.patch(`${DOCS}/unid/${b['@unid']}`, { Status: 'Completed' });
-        await this.issueCoin(b.AcceptorID, Number(b.BountyAmount), 'BountyReward', b['@unid'], `完成懸賞：${b.TaskTitle}`);
-        this.toast(`任務完成！${b.BountyAmount} 幣已轉給 ${this.cnName(b.AcceptorName || b.AcceptorID)}。`);
+        
+        // 3. 使用剛剛抓回來的 realAcceptorID 發放活力幣給接案者
+        await this.issueCoin(realAcceptorID, Number(b.BountyAmount), 'BountyReward', b['@unid'], `完成懸賞：${b.TaskTitle}`);
+        
+        this.toast(`任務完成！${b.BountyAmount} 幣已匯入對方帳戶。`);
         await this.refreshAll();
       } catch (e) {
         console.warn('確認完成失敗', e);
